@@ -1,0 +1,144 @@
+{
+	"$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+	"version": 1,
+	"newProjectRoot": "projects",
+	"projects": {
+		"search": {
+			"projectType": "application",
+			"schematics": {
+				"@schematics/angular:component": {
+					"style": "scss"
+				}
+			},
+			"root": "projects/search",
+			"sourceRoot": "projects/search/src",
+			"prefix": "app",
+			"architect": {
+				"build": {
+					"builder": "@angular-architects/native-federation:build",
+					"options": {},
+					"configurations": {
+						"prod": {
+							"target": "search:esbuild-prod:prod"
+						},
+						"dev": {
+							"target": "search:esbuild-dev:dev"
+						}
+					},
+					"defaultConfiguration": "dev"
+				},
+				"serve": {
+					"builder": "@angular-architects/native-federation:build",
+					"options": {
+						"target": "search:serve-original:dev",
+						"rebuildDelay": 0,
+						"dev": true,
+						"port": 0
+					}
+				},
+				"extract-i18n": {
+					"builder": "@angular/build:extract-i18n"
+				},
+				"test": {
+					"builder": "@angular/build:karma",
+					"options": {
+						"polyfills": [
+							"zone.js",
+							"zone.js/testing"
+						],
+						"tsConfig": "projects/search/tsconfig.spec.json",
+						"inlineStyleLanguage": "scss",
+						"assets": [
+							{
+								"glob": "**/*",
+								"input": "projects/search/public",
+								"output": "/assets"
+							}
+						],
+						"styles": [
+							"projects/search/src/styles.scss"
+						]
+					}
+				},
+				"esbuild-dev": {
+					"builder": "@angular/build:application",
+					"options": {
+						"browser": "projects/search/src/main.ts",
+						"polyfills": [
+							"zone.js",
+							"es-module-shims"
+						],
+						"tsConfig": "projects/search/tsconfig.app.json",
+						"inlineStyleLanguage": "scss",
+						"assets": [
+							{
+								"glob": "**/*",
+								"input": "projects/search/public",
+								"output": "/assets"
+							}
+						],
+						"styles": [
+							"projects/search/src/styles.scss"
+						]
+					},
+					"configurations": {
+						"dev": {
+							"optimization": false,
+							"extractLicenses": false,
+							"sourceMap": true
+						}
+					},
+					"defaultConfiguration": "dev"
+				},			  
+				"esbuild-prod": {
+					"builder": "@angular/build:application",
+					"options": {
+						"browser": "projects/search/src/main.ts",
+						"polyfills": [
+							"zone.js",
+							"es-module-shims"
+						],
+						"tsConfig": "projects/search/tsconfig.app.json",
+						"inlineStyleLanguage": "scss",
+						"styles": [
+							"projects/search/src/styles.scss"
+						]
+					},
+					"configurations": {
+						"prod": {
+							"budgets": [
+								{
+									"type": "initial",
+									"maximumWarning": "500kB",
+									"maximumError": "1MB"
+								},
+								{
+									"type": "anyComponentStyle",
+									"maximumWarning": "4kB",
+									"maximumError": "8kB"
+								}
+							],
+							"outputHashing": "all"
+						}
+					},
+					"defaultConfiguration": "prod"
+				},
+				"serve-original": {
+					"builder": "@angular/build:dev-server",
+					"configurations": {
+						"prod": {
+							"buildTarget": "search:esbuild-prod:prod"
+						},
+						"dev": {
+							"buildTarget": "search:esbuild-dev:dev"
+						}
+					},
+					"defaultConfiguration": "dev",
+					"options": {
+						"port": 4207
+					}
+				}
+			}
+		}
+	}
+}

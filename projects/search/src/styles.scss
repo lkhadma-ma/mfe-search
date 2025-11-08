@@ -1,0 +1,13 @@
+@tailwind components;
+@tailwind utilities;
+@layer utilities {
+    /* Chrome, Safari and Opera */
+    .mfe-search-no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .mfe-search-no-scrollbar {
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+    }
+}
