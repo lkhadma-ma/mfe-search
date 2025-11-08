@@ -135,7 +135,7 @@
 					},
 					"defaultConfiguration": "dev",
 					"options": {
-						"port": 4207
+						"port": 4208
 					}
 				}
 			}
