@@ -1,0 +1,35 @@
+.mfe-search-person-card {
+    @apply mfe-search-flex mfe-search-items-center mfe-search-justify-between mfe-search-py-4 mfe-search-border-b mfe-search-border-gray-100 last:mfe-search-border-b-0;
+}
+
+.mfe-search-person-header {
+    @apply mfe-search-flex mfe-search-items-center mfe-search-space-x-3;
+}
+
+.mfe-search-avatar {
+    @apply mfe-search-w-12 mfe-search-h-12 mfe-search-bg-gradient-to-r mfe-search-from-blue-500 mfe-search-to-blue-600 mfe-search-rounded-full mfe-search-flex mfe-search-items-center mfe-search-justify-center;
+}
+
+.mfe-search-avatar-initials {
+    @apply mfe-search-text-white mfe-search-font-semibold mfe-search-text-sm;
+}
+
+.mfe-search-person-info {
+    @apply mfe-search-flex-1;
+}
+
+.mfe-search-person-name {
+    @apply mfe-search-text-lg mfe-search-font-semibold mfe-search-text-gray-900;
+}
+
+.mfe-search-person-connection {
+    @apply mfe-search-text-sm mfe-search-text-gray-600;
+}
+
+.mfe-search-person-location {
+    @apply mfe-search-text-sm mfe-search-text-gray-500;
+}
+
+.mfe-search-message-btn {
+    @apply mfe-search-px-4 mfe-search-py-2 mfe-search-border mfe-search-border-gray-400 mfe-search-text-gray-700 mfe-search-rounded-full hover:mfe-search-bg-gray-50 mfe-search-text-sm mfe-search-font-medium;
+}
