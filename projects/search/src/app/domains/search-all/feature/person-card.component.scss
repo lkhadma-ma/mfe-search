@@ -1,5 +1,5 @@
 .mfe-search-person-card {
-    @apply mfe-search-flex mfe-search-items-center mfe-search-justify-between mfe-search-py-4 mfe-search-border-b mfe-search-border-gray-100 last:mfe-search-border-b-0;
+    @apply hover:mfe-search-bg-gray-50 mfe-search-cursor-pointer mfe-search-flex mfe-search-items-center mfe-search-justify-between mfe-search-py-4 mfe-search-px-2 mfe-search-border-b mfe-search-border-gray-100 last:mfe-search-border-b-0;
 }
 
 .mfe-search-person-header {
