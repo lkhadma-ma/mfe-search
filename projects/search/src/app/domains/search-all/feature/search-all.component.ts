@@ -2,8 +2,8 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SectionComponent } from "@shared/ui/section/section.component";
-import { SearchSidebarComponent } from './search-sidebar.component';
-import { SearchResultsComponent } from './search-results.component';
+import { SearchSidebarComponent } from '../ui/search-sidebar.component';
+import { SearchResultsComponent } from '../ui/search-results.component';
 
 @Component({
     selector: 'mfe-search-search-all',
@@ -11,20 +11,55 @@ import { SearchResultsComponent } from './search-results.component';
     template: `
     <mfe-search-section ngxClass="md:mfe-user-pt-[5rem]">
         <div class="mfe-search-grids">
-            <mfe-search-sidebar />
-            <mfe-search-results />
+            <mfe-search-sidebar
+                [sections]="[
+                    {
+                    title: { value: 'main', label: 'En esta página' },
+                    items: [
+                        { value: 'people', label: 'Personas' },
+                        { value: 'company', label: 'Compañías' }
+                    ]
+                    },
+                    {
+                    title: { value: 'people', label: 'Personas' },
+                    items: [
+                        { value: '1', label: 'Juan' },
+                        { value: '2', label: 'Ana' },
+                        { value: '3', label: 'Luis' }
+                    ]
+                    },
+                    {
+                    title: { value: 'company', label: 'Compañías' },
+                    items: [
+                        { value: '1', label: 'Google' },
+                        { value: '2', label: 'Meta' },
+                        { value: '3', label: 'OpenAI' }
+                    ]
+                    }
+                ]"
+                (filterChange)="onFilterChange($event)" />
+            <mfe-search-results [activeTab]="activeTab()" />
+            
         </div>
     </mfe-search-section>
     `,
     styleUrls: ['./search-all.component.scss'],
 })
 export class SearchAllComponent implements OnInit {
+    activeTab = signal<string>('');
+
+
+    ngOnInit(): void {
+        window.addEventListener('mfe-search:domains:all', this.listener);
+    }
+
     listener = (event: Event) => {
         const { detail } = event as CustomEvent;
         const safe = detail.replace(/<[^>]*>/g, '').trim();
     };
 
-    ngOnInit(): void {
-        window.addEventListener('mfe-search:domains:all', this.listener);
+    onFilterChange(filter: { section: string; selected: string[] }){
+        console.log(filter)
+        this.activeTab.set(filter.section)
     }
 }

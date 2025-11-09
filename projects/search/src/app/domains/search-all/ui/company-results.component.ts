@@ -1,14 +1,13 @@
-// people-results.component.ts
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PersonCardComponent } from './person-card.component';
 
 @Component({
-    selector: 'mfe-search-people-results',
+    selector: 'mfe-search-comapny-results',
     imports: [CommonModule, PersonCardComponent],
     template: `
-            <h2 class="mfe-search-results-title">People</h2>
-            
+            <h2 class="mfe-search-results-title">Company</h2>
+
             <mfe-search-person-card 
                 [person]="{
                     avatar: 'https://media.licdn.com/dms/image/v2/D4D03AQHsr6KATZEHSQ/profile-displayphoto-shrink_100_100/B4DZSaPw.bGcAU-/0/1737754612249?e=1764201600&v=beta&t=_GI_MC7vrn2S48Zpx76xqBiAwKhOJ9mazFT_DDEnrsU',
@@ -16,13 +15,8 @@ import { PersonCardComponent } from './person-card.component';
                     headline: 'Software Developer',
                     location: 'Vicenza'
                 }" />
-            
-            <!-- See all people results -->
-            <div class="mfe-search-see-all">
-                <button class="mfe-search-see-all-btn">See all people results</button>
-            </div>
 
     `,
-    styleUrls: ['./people-results.component.scss'],
+    styleUrls: ['./company-results.component.scss'],
 })
-export class PeopleResultsComponent {}
+export class CompanyResultsComponent {}
