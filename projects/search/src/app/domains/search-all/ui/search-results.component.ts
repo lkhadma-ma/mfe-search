@@ -8,7 +8,7 @@ import { CompanyResultsComponent } from "./company-results.component";
     imports: [CommonModule, PeopleResultsComponent, CompanyResultsComponent],
     template: `
             @if (activeTab() === 'people') {
-                <mfe-search-people-results />
+                <mfe-search-people-results  />
             }
             @if (activeTab() === 'company') {
                 <mfe-search-comapny-results />
