@@ -11,9 +11,9 @@ import { PersonCardComponent } from './person-card.component';
             
             <mfe-search-person-card 
                 [person]="{
-                    initials: 'ET',
-                    name: 'Emassiri Tasnim',
-                    connection: '3rd+',
+                    avatar: 'https://media.licdn.com/dms/image/v2/D4D03AQHsr6KATZEHSQ/profile-displayphoto-shrink_100_100/B4DZSaPw.bGcAU-/0/1737754612249?e=1764201600&v=beta&t=_GI_MC7vrn2S48Zpx76xqBiAwKhOJ9mazFT_DDEnrsU',
+                    name: 'Oussama Yaagoub',
+                    headline: 'Software Developer',
                     location: 'Vicenza'
                 }" />
             

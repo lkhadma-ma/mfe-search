@@ -7,7 +7,7 @@
 }
 
 .mfe-search-avatar {
-    @apply mfe-search-w-12 mfe-search-h-12 mfe-search-bg-gradient-to-r mfe-search-from-blue-500 mfe-search-to-blue-600 mfe-search-rounded-full mfe-search-flex mfe-search-items-center mfe-search-justify-center;
+    @apply mfe-search-w-16 mfe-search-h-16 mfe-search-rounded-full mfe-search-flex mfe-search-items-center mfe-search-justify-center mfe-search-overflow-hidden;
 }
 
 .mfe-search-avatar-initials {
@@ -31,5 +31,5 @@
 }
 
 .mfe-search-message-btn {
-    @apply mfe-search-px-4 mfe-search-py-2 mfe-search-border mfe-search-border-gray-400 mfe-search-text-gray-700 mfe-search-rounded-full hover:mfe-search-bg-gray-50 mfe-search-text-sm mfe-search-font-medium;
+    @apply mfe-search-px-4 mfe-search-py-2 mfe-search-border mfe-search-border-gray-400 mfe-search-text-gray-700 mfe-search-rounded-full hover:mfe-search-bg-gray-50 mfe-search-text-sm mfe-search-font-medium mfe-search-hidden;
 }
