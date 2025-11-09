@@ -46,7 +46,7 @@ import { SearchResultsComponent } from '../ui/search-results.component';
     styleUrls: ['./search-all.component.scss'],
 })
 export class SearchAllComponent implements OnInit {
-    activeTab = signal<string>('');
+    activeTab = signal<string>('people');
 
 
     ngOnInit(): void {

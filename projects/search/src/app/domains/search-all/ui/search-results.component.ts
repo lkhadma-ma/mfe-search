@@ -18,5 +18,5 @@ import { CompanyResultsComponent } from "./company-results.component";
     styleUrls: ['./search-results.component.scss'],
 })
 export class SearchResultsComponent {
-    activeTab = input<string>('people');
+    activeTab = input<string>('');
 }
