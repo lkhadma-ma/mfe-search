@@ -1,9 +1,10 @@
 // search-all.component.ts
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SectionComponent } from "@shared/ui/section/section.component";
 import { SearchSidebarComponent } from '../ui/search-sidebar.component';
 import { SearchResultsComponent } from '../ui/search-results.component';
+import { SearchAllStore } from '../data-access/search-all.store';
 
 @Component({
     selector: 'mfe-search-search-all',
@@ -38,7 +39,11 @@ import { SearchResultsComponent } from '../ui/search-results.component';
                     }
                 ]"
                 (filterChange)="onFilterChange($event)" />
-            <mfe-search-results [activeTab]="activeTab()" />
+
+            <mfe-search-results 
+                [activeTab]="activeTab().section"
+                [companies]="searchAllStore.companies()"
+                [peoples]="searchAllStore.peoples()"  />
             
         </div>
     </mfe-search-section>
@@ -46,8 +51,14 @@ import { SearchResultsComponent } from '../ui/search-results.component';
     styleUrls: ['./search-all.component.scss'],
 })
 export class SearchAllComponent implements OnInit {
-    activeTab = signal<string>('people');
+    activeTab = signal<{ section: string; selected: string[] }>(
+        {
+            section: 'people',
+            selected: []
+        }
+    );
 
+    searchAllStore = inject(SearchAllStore);
 
     ngOnInit(): void {
         window.addEventListener('mfe-search:domains:all', this.listener);
@@ -56,10 +67,21 @@ export class SearchAllComponent implements OnInit {
     listener = (event: Event) => {
         const { detail } = event as CustomEvent;
         const safe = detail.replace(/<[^>]*>/g, '').trim();
+
+        if (this.activeTab().section == 'people'){
+            this.searchAllStore.loadPeoplesByUserInput({
+                input: safe,
+                filters: this.activeTab().selected
+            });
+        } else if(this.activeTab().section == 'people'){
+            this.searchAllStore.loadCompaniesByUserInput({
+                input: safe,
+                filters: this.activeTab().selected
+            });
+        }
     };
 
     onFilterChange(filter: { section: string; selected: string[] }){
-        console.log(filter)
-        this.activeTab.set(filter.section)
+        this.activeTab.set(filter)
     }
 }
