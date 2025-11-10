@@ -73,7 +73,7 @@ export class SearchAllComponent implements OnInit {
                 input: safe,
                 filters: this.activeTab().selected
             });
-        } else if(this.activeTab().section == 'people'){
+        } else if(this.activeTab().section == 'company'){
             this.searchAllStore.loadCompaniesByUserInput({
                 input: safe,
                 filters: this.activeTab().selected
