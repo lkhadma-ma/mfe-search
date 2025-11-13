@@ -51,6 +51,7 @@ import { SearchAllStore } from '../data-access/search-all.store';
     styleUrls: ['./search-all.component.scss'],
 })
 export class SearchAllComponent implements OnInit {
+    private debounceTimer: ReturnType<typeof setTimeout> | null = null;
     activeTab = signal<{ section: string; selected: string[] }>(
         {
             section: 'people',
@@ -68,20 +69,27 @@ export class SearchAllComponent implements OnInit {
         const { detail } = event as CustomEvent;
         const safe = detail.replace(/<[^>]*>/g, '').trim();
 
-        if (this.activeTab().section == 'people'){
-            this.searchAllStore.loadPeoplesByUserInput({
-                input: safe,
-                filters: this.activeTab().selected
-            });
-        } else if(this.activeTab().section == 'company'){
-            this.searchAllStore.loadCompaniesByUserInput({
-                input: safe,
-                filters: this.activeTab().selected
-            });
-        }
+        if (this.debounceTimer) clearTimeout(this.debounceTimer);
+            this.debounceTimer = setTimeout(() => {
+            this.search(safe);
+        }, 300);
     };
 
     onFilterChange(filter: { section: string; selected: string[] }){
         this.activeTab.set(filter)
+    }
+
+    search(input: string){
+        if (this.activeTab().section == 'people'){
+            this.searchAllStore.loadPeoplesByUserInput({
+                input: input,
+                filters: this.activeTab().selected
+            });
+        } else if(this.activeTab().section == 'company'){
+            this.searchAllStore.loadCompaniesByUserInput({
+                input: input,
+                filters: this.activeTab().selected
+            });
+        }
     }
 }
