@@ -1,6 +1,7 @@
 export type Comapny = {
-    avatar: string;
     name: string;
     headline: string;
-    location: string;
+    overview: string;
+    avatar: string;
+    username: string;
 }

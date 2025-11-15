@@ -10,10 +10,10 @@ import { Comapny } from '../data-access/company';
     imports: [CommonModule, PeopleResultsComponent, CompanyResultsComponent],
     template: `
             @if (activeTab() === 'people') {
-                <mfe-search-people-results [peoples]="peoples()"  />
+                <mfe-search-people-results [loading]="loading()" [peoples]="peoples()"  />
             }
             @if (activeTab() === 'company') {
-                <mfe-search-comapny-results [companies]="companies()" />
+                <mfe-search-comapny-results [loading]="loading()" [companies]="companies()" />
             }
             
     `,
@@ -21,6 +21,7 @@ import { Comapny } from '../data-access/company';
 })
 export class SearchResultsComponent {
     activeTab = input<string>('');
+    loading = input<boolean>(false);
 
     peoples = input<People[]>([]);
     companies = input<Comapny[]>([]);

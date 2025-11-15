@@ -5,7 +5,7 @@
 
 .mfe-search-section {
     @apply mfe-search-bg-white mfe-search-border mfe-search-border-gray-200 mfe-search-rounded-lg mfe-search-p-4;
-    @apply max-sm:mfe-search-bg-transparent max-sm:mfe-search-border-0 max-sm:mfe-search-p-0 max-sm:mfe-search-flex max-sm:mfe-search-flex-row;
+    @apply max-sm:mfe-search-bg-transparent max-sm:mfe-search-border-0 max-sm:mfe-search-p-0 max-sm:mfe-search-flex max-sm:mfe-search-flex-wrap;
     @apply max-sm:mfe-search-gap-2;
 }
 

@@ -22,15 +22,17 @@ import { SearchAllStore } from '../data-access/search-all.store';
                     ]
                     },
                     {
-                    title: { value: 'people', label: 'Personas' },
+                    title: { value: 'people', label: 'Filtrar por' },
                     items: [
-                        { value: '1', label: 'Juan' },
-                        { value: '2', label: 'Ana' },
-                        { value: '3', label: 'Luis' }
+                        { value: 'username', label: 'Usuario' },
+                        { value: 'name', label: 'Nombre' },
+                        { value: 'headline', label: 'Cabecera' },
+                        { value: 'address', label: 'direccion' },
+                        { value: 'about', label: 'sobre' }
                     ]
                     },
                     {
-                    title: { value: 'company', label: 'Compañías' },
+                    title: { value: 'company', label: 'Filtrar por' },
                     items: [
                         { value: '1', label: 'Google' },
                         { value: '2', label: 'Meta' },
@@ -40,10 +42,11 @@ import { SearchAllStore } from '../data-access/search-all.store';
                 ]"
                 (filterChange)="onFilterChange($event)" />
 
-            <mfe-search-results 
+            <mfe-search-results class=""
                 [activeTab]="activeTab().section"
                 [companies]="searchAllStore.companies()"
-                [peoples]="searchAllStore.peoples()"  />
+                [peoples]="searchAllStore.peoples()"
+                [loading]="searchAllStore.loading()"  />
             
         </div>
     </mfe-search-section>
