@@ -7,7 +7,7 @@ import { SearchResultsComponent } from '../ui/search-results.component';
 import { SearchAllStore } from '../data-access/search-all.store';
 
 @Component({
-    selector: 'mfe-search-search-all',
+    selector: 'mfe-search-all',
     imports: [CommonModule, SectionComponent, SearchSidebarComponent, SearchResultsComponent],
     template: `
     <mfe-search-section ngxClass="md:mfe-user-pt-[5rem]">
