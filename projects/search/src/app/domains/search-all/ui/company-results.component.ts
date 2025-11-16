@@ -7,9 +7,12 @@ import { LoadingComponent } from "./loading.component";
 
 @Component({
     selector: 'mfe-search-comapny-results',
+    host: {
+        class: 'mfe-search-block mfe-search-bg-white mfe-search-border mfe-search-border-gray-200 mfe-search-rounded-lg mfe-search-p-6'
+    },
     imports: [CommonModule, ComapnyCardComponent, NotFoundComponent, LoadingComponent],
     template: `
-            <h2 class="mfe-search-results-title">Company</h2>
+            <h2 class="mfe-search-text-xl mfe-search-font-semibold mfe-search-text-gray-900 mfe-search-mb-4">Company</h2>
 
             <!-- Loading -->
             @if (loading()) {
@@ -29,8 +32,7 @@ import { LoadingComponent } from "./loading.component";
                 <mfe-search-not-found />
             }
 
-    `,
-    styleUrls: ['./company-results.component.scss'],
+    `
 })
 export class CompanyResultsComponent {
     companies = input<Comapny[]>([])

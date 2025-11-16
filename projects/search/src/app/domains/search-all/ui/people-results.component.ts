@@ -7,9 +7,12 @@ import { LoadingComponent } from "./loading.component";
 
 @Component({
     selector: 'mfe-search-people-results',
+    host: {
+        class: 'mfe-search-block mfe-search-bg-white mfe-search-border mfe-search-border-gray-200 mfe-search-rounded-lg mfe-search-p-6'
+    },
     imports: [CommonModule, PersonCardComponent, NotFoundComponent, LoadingComponent],
     template: `
-            <h2 class="mfe-search-results-title">People</h2>
+            <h2 class="mfe-search-text-xl mfe-search-font-semibold mfe-search-text-gray-900 mfe-search-mb-4">People</h2>
 
             <!-- Loading -->
             @if (loading()) {
@@ -28,8 +31,7 @@ import { LoadingComponent } from "./loading.component";
                 <mfe-search-not-found />
             }
 
-    `,
-    styleUrls: ['./people-results.component.scss'],
+    `
 })
 export class PeopleResultsComponent {
     peoples = input<People[]>([])
