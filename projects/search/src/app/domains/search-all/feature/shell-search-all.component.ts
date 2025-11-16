@@ -51,7 +51,7 @@ import { SearchAllStore } from '../data-access/search-all.store';
         </div>
     </mfe-search-section>
     `,
-    styleUrls: ['./search-all.component.scss'],
+    styleUrls: ['./shell-search-all.component.scss'],
 })
 export class SearchAllComponent implements OnInit {
     private debounceTimer: ReturnType<typeof setTimeout> | null = null;
