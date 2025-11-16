@@ -6,8 +6,6 @@ import { Component, OnInit } from '@angular/core';
     styleUrl: 'shell-search-job.component.scss'
 })
 
-export class NameComponent implements OnInit {
-    constructor() { }
+export class ShellSearchJobComponent {
 
-    ngOnInit() { }
 }
