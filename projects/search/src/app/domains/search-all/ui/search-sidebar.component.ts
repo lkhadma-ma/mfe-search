@@ -15,14 +15,19 @@ interface FilterSection {
   selector: 'mfe-search-sidebar',
   standalone: true,
   imports: [CommonModule],
+  host: {
+    class: 'mfe-search-w-full mfe-search-block sm:mfe-search-col-span-1 mfe-search-space-y-6 max-sm:mfe-search-rounded-lg max-sm:mfe-search-space-y-2 max-sm:mfe-search-bg-white max-sm:mfe-search-p-2'
+  },
   template: `
     <!-- MAIN SECTION: always visible -->
-    <div class="mfe-search-section">
-      <h3 class="mfe-search-section-title">{{ mainSection.title.label }}</h3>
+    <div class="mfe-search-bg-white mfe-search-border mfe-search-border-gray-200 mfe-search-rounded-lg mfe-search-p-4
+     max-sm:mfe-search-bg-transparent max-sm:mfe-search-border-0 max-sm:mfe-search-p-0 max-sm:mfe-search-flex max-sm:mfe-search-flex-wrap
+     max-sm:mfe-search-gap-2">
+      <h3 class="mfe-search-text-sm mfe-search-font-semibold mfe-search-text-gray-900 mfe-search-mb-3 max-sm:mfe-search-hidden">{{ mainSection.title.label }}</h3>
 
       <div
         *ngFor="let item of mainSection.items"
-        class="mfe-search-nav-item"
+        class="mfe-search-text-sm mfe-search-text-gray-600 mfe-search-py-1 mfe-search-px-2 mfe-search-cursor-pointer hover:mfe-search-bg-gray-50 mfe-search-rounded max-sm:mfe-search-rounded-3xl max-sm:mfe-search-bg-white max-sm:mfe-search-border max-sm:mfe-search-border-gray-200 max-sm:mfe-search-p-2 max-sm:mfe-search-px-4"
         [class.mfe-search-active]="mainActive() === item.value"
         (click)="selectMain(item.value)"
       >
@@ -31,20 +36,21 @@ interface FilterSection {
     </div>
 
     <!-- SUB SECTIONS: only display the selected one -->
-    <div *ngFor="let section of filteredSections()" class="mfe-search-section">
-      <h3 class="mfe-search-section-title">{{ section.title.label }}</h3>
+    <div *ngFor="let section of filteredSections()" class="mfe-search-bg-white mfe-search-border mfe-search-border-gray-200 mfe-search-rounded-lg mfe-search-p-4
+     max-sm:mfe-search-bg-transparent max-sm:mfe-search-border-0 max-sm:mfe-search-p-0 max-sm:mfe-search-flex max-sm:mfe-search-flex-wrap
+     max-sm:mfe-search-gap-2">
+      <h3 class="mfe-search-text-sm mfe-search-font-semibold mfe-search-text-gray-900 mfe-search-mb-3 max-sm:mfe-search-hidden">{{ section.title.label }}</h3>
 
       <div
         *ngFor="let item of section.items"
-        class="mfe-search-nav-item"
+        class="mfe-search-text-sm mfe-search-text-gray-600 mfe-search-py-1 mfe-search-px-2 mfe-search-cursor-pointer hover:mfe-search-bg-gray-50 mfe-search-rounded max-sm:mfe-search-rounded-3xl max-sm:mfe-search-bg-white max-sm:mfe-search-border max-sm:mfe-search-border-gray-200 max-sm:mfe-search-p-2 max-sm:mfe-search-px-4"
         [class.mfe-search-active]="isActive(section.title.value, item.value)"
         (click)="toggleItem(section.title.value, item.value)"
       >
         {{ item.label }}
       </div>
     </div>
-  `,
-  styleUrls: ['./search-sidebar.component.scss'],
+  `
 })
 export class SearchSidebarComponent {
   /**

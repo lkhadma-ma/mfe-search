@@ -7,17 +7,19 @@ import { Comapny } from '../data-access/company';
 
 @Component({
     selector: 'mfe-search-results',
+    host: {
+        class: 'sm:mfe-search-col-span-3 mfe-search-space-y-4'
+    },
     imports: [CommonModule, PeopleResultsComponent, CompanyResultsComponent],
     template: `
-            @if (activeTab() === 'people') {
-                <mfe-search-people-results [loading]="loading()" [peoples]="peoples()"  />
-            }
-            @if (activeTab() === 'company') {
-                <mfe-search-comapny-results [loading]="loading()" [companies]="companies()" />
-            }
+        @if (activeTab() === 'people') {
+            <mfe-search-people-results [loading]="loading()" [peoples]="peoples()"  />
+        }
+        @if (activeTab() === 'company') {
+            <mfe-search-comapny-results [loading]="loading()" [companies]="companies()" />
+        }
             
-    `,
-    styleUrls: ['./search-results.component.scss'],
+    `
 })
 export class SearchResultsComponent {
     activeTab = input<string>('');
