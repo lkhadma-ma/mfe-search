@@ -28,7 +28,12 @@ interface FilterSection {
       <div
         *ngFor="let item of mainSection.items"
         class="mfe-search-text-sm mfe-search-text-gray-600 mfe-search-py-1 mfe-search-px-2 mfe-search-cursor-pointer hover:mfe-search-bg-gray-50 mfe-search-rounded max-sm:mfe-search-rounded-3xl max-sm:mfe-search-bg-white max-sm:mfe-search-border max-sm:mfe-search-border-gray-200 max-sm:mfe-search-p-2 max-sm:mfe-search-px-4"
-        [class.mfe-search-active]="mainActive() === item.value"
+        [ngClass]="{
+          'mfe-search-font-medium': mainActive() === item.value,
+          'max-sm:hover:mfe-search-bg-green-900': mainActive() === item.value,
+          'max-sm:mfe-search-text-white': mainActive() === item.value,
+          'max-sm:mfe-search-bg-green-800': mainActive() === item.value
+          }"
         (click)="selectMain(item.value)"
       >
         {{ item.label }}
@@ -44,7 +49,12 @@ interface FilterSection {
       <div
         *ngFor="let item of section.items"
         class="mfe-search-text-sm mfe-search-text-gray-600 mfe-search-py-1 mfe-search-px-2 mfe-search-cursor-pointer hover:mfe-search-bg-gray-50 mfe-search-rounded max-sm:mfe-search-rounded-3xl max-sm:mfe-search-bg-white max-sm:mfe-search-border max-sm:mfe-search-border-gray-200 max-sm:mfe-search-p-2 max-sm:mfe-search-px-4"
-        [class.mfe-search-active]="isActive(section.title.value, item.value)"
+        [ngClass]="{
+          'mfe-search-font-medium':isActive(section.title.value, item.value),
+          'max-sm:hover:mfe-search-bg-green-900':isActive(section.title.value, item.value),
+          'max-sm:mfe-search-text-white':isActive(section.title.value, item.value),
+          'max-sm:mfe-search-bg-green-800': isActive(section.title.value, item.value)
+          }"
         (click)="toggleItem(section.title.value, item.value)"
       >
         {{ item.label }}
@@ -53,6 +63,7 @@ interface FilterSection {
   `
 })
 export class SearchSidebarComponent {
+
   /**
    * Input example:
    * [

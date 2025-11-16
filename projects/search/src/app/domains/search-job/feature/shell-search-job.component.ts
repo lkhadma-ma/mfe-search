@@ -5,7 +5,6 @@ import { SearchJobSectionComponent } from "../ui/search-job-section.component";
 @Component({
     selector: 'mfe-search-job',
     templateUrl: 'shell-search-job.component.html',
-    styleUrl: 'shell-search-job.component.scss',
     imports: [SectionComponent, SearchJobSectionComponent]
 })
 
