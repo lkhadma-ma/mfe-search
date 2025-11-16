@@ -10,8 +10,8 @@ import { SearchAllStore } from '../data-access/search-all.store';
     selector: 'mfe-search-all',
     imports: [CommonModule, SectionComponent, SearchSidebarComponent, SearchResultsComponent],
     template: `
-    <mfe-search-section ngxClass="md:mfe-user-pt-[5rem]">
-        <div class="mfe-search-grids">
+    <mfe-search-section ngxClass="md:mfe-search-pt-[5rem]">
+        <div class="mfe-search-w-full mfe-search-mx-auto mfe-search-px-2 mfe-search-py-6 mfe-search-grid max-sm:mfe-search-grid-cols-1 mfe-search-grid-cols-4 mfe-search-gap-6">
             <mfe-search-sidebar
                 [sections]="[
                     {
@@ -50,8 +50,7 @@ import { SearchAllStore } from '../data-access/search-all.store';
             
         </div>
     </mfe-search-section>
-    `,
-    styleUrls: ['./shell-search-all.component.scss'],
+    `
 })
 export class SearchAllComponent implements OnInit {
     private debounceTimer: ReturnType<typeof setTimeout> | null = null;
