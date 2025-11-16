@@ -6,7 +6,8 @@ module.exports = withNativeFederation({
 
   exposes: {
       // routes
-      './SEARCH_ALL_ROUTES':'./projects/search/src/app/domains/search-all/feature/search-all.routes.ts',
+      './SEARCH_ALL_ROUTES':'./projects/search/src/app/domains/search-all/feature/shell-search-all.routes.ts',
+      './SEARCH_JOB_ROUTES':'./projects/search/src/app/domains/search-job/feature/shell-search-job.routes.ts',
       // components
   },
 
