@@ -1,3 +1,7 @@
-<mfe-search-section ngxClass="md:mfe-search-pt-[15rem]">
-    <mfe-search-job-section></mfe-search-job-section>
+<mfe-search-section ngxClass="md:mfe-search-pt-[15rem] lg:mfe-search-pt-[10rem]">
+    @if(isOpen()){
+
+    } @else {
+        <mfe-search-job-section (onSubmit)="onSubmit($event)" />
+    }
 </mfe-search-section>

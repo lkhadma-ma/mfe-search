@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, output } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'mfe-search-job-section',
+  imports: [FormsModule],
   host: {
     class: 'mfe-search-w-full'
   },
@@ -12,11 +14,11 @@ import { Component } from '@angular/core';
              sm:mfe-search-px-16">
         <p class="mfe-search-mx-auto mfe-search-max-w-2xl mfe-search-text-3xl
              mfe-search-font-bold mfe-search-tracking-tight mfe-search-text-gray-900
-             sm:mfe-search-text-4xl">
-          Didn't find component you were looking for?
+             sm:mfe-search-text-4xl lg:mfe-search-text-7xl">
+          Didn't find job you were looking for?
         </p>
 
-        <form action="/search">
+        <form #form="ngForm" (submit)="onSubmit.emit(form.value)">
           <label class="mfe-search-mx-auto mfe-search-mt-8 mfe-search-relative mfe-search-bg-white
               mfe-search-max-w-2xl mfe-search-flex mfe-search-flex-col
              md:mfe-search-flex-row mfe-search-items-center mfe-search-justify-center
@@ -26,7 +28,8 @@ import { Component } from '@angular/core';
             <input
               id="search-bar"
               placeholder="your keyword here"
-              name="q"
+              ngModel
+              name="search"
               class="mfe-search-px-6 mfe-search-py-2 mfe-search-w-full mfe-search-rounded-md
              mfe-search-flex-1 mfe-search-outline-none mfe-search-bg-white"
               required
@@ -49,4 +52,6 @@ import { Component } from '@angular/core';
     </div>
   `
 })
-export class SearchJobSectionComponent {}
+export class SearchJobSectionComponent {
+    onSubmit = output<string>();
+}
