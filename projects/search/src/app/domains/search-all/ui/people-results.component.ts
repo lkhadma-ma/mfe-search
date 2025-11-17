@@ -14,30 +14,31 @@ import { LoadingComponent } from "./loading.component";
     template: `
             <h2 class="mfe-search-text-xl mfe-search-font-semibold mfe-search-text-gray-900 mfe-search-mb-4">People</h2>
 
+            <!-- default view -->
+            @if(peoples() === null){
+                Please Start Searching...
+                
+            }
             <!-- Loading -->
-            @if (loading()) {
+            @else if (peoples() === undefined) {
                 <mfe-search-loading />
             }
 
             <!-- Results -->
-            @else if (hasResults()) {
+            @else if (peoples()!.length > 0) {
                 @for (people of peoples(); track people) {
                     <mfe-search-person-card [people]="people" />
                 }
             }
 
             <!-- Empty -->
-            @else if (isEmpty()) {
+            @else {
                 <mfe-search-not-found />
             }
 
     `
 })
 export class PeopleResultsComponent {
-    peoples = input<People[]>([])
-    loading = input<boolean>(false);
-
-    hasResults = computed(() => !this.loading() && this.peoples().length > 0);
-    isEmpty = computed(() => !this.loading() && this.peoples().length === 0);
+    peoples = input<People[] | undefined | null>(null);
 
 }

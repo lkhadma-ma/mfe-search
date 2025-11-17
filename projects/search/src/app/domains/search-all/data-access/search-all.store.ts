@@ -12,7 +12,7 @@ export class SearchAllStore {
 
     private http = inject(AuthHttpService);
 
-    private peoplesSignal = signal<People[]>([]);
+    private peoplesSignal = signal<People[] | undefined | null>(null);
     private companiesSignal = signal<Comapny[]>([])
     private loadingSignal = signal<boolean>(false);
 
@@ -22,7 +22,12 @@ export class SearchAllStore {
 
     loadPeoplesByUserInput({ input, filters }: { input : string, filters: string[]}){
 
-        this.loadingSignal.set(true);
+        if(!input.trim()){
+            this.peoplesSignal.set(null);
+            return
+        }
+
+        this.peoplesSignal.set(undefined);
 
         this.http.get<People[]>(`${this.baseUrlUser}/users/search?in=${input}&fill=${filters.join(',')}`)
             .pipe(

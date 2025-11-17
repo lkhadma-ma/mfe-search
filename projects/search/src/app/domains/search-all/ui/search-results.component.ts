@@ -13,7 +13,7 @@ import { Comapny } from '../data-access/company';
     imports: [CommonModule, PeopleResultsComponent, CompanyResultsComponent],
     template: `
         @if (activeTab() === 'people') {
-            <mfe-search-people-results [loading]="loading()" [peoples]="peoples()"  />
+            <mfe-search-people-results [peoples]="peoples()"  />
         }
         @if (activeTab() === 'company') {
             <mfe-search-comapny-results [loading]="loading()" [companies]="companies()" />
@@ -25,6 +25,6 @@ export class SearchResultsComponent {
     activeTab = input<string>('');
     loading = input<boolean>(false);
 
-    peoples = input<People[]>([]);
+    peoples = input<People[] | undefined | null>(null);
     companies = input<Comapny[]>([]);
 }
