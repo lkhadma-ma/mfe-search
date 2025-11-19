@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, input, output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { JobDto } from './job.dto';
 
 
