@@ -59,6 +59,7 @@ export class SearchJobResultsSectionComponent {
       updatedAt: new Date(),
       company: {
         id: 10,
+        website:'',
         name: 'Tech Innovators',
         avatar: 'https://placehold.co/100x100',
         size: CompanySize.MEDIUM,
@@ -80,6 +81,8 @@ export class SearchJobResultsSectionComponent {
       createdAt: new Date(),
       updatedAt: new Date(),
       company: {
+        website:'',
+        description: '',
         id: 11,
         name: 'Cloud Systems EU',
         avatar: 'https://placehold.co/100x100',
@@ -101,6 +104,8 @@ export class SearchJobResultsSectionComponent {
       createdAt: new Date(),
       updatedAt: new Date(),
       company: {
+        website:'',
+        description: '',
         id: 12,
         name: 'Appify Labs',
         avatar: 'https://placehold.co/100x100',

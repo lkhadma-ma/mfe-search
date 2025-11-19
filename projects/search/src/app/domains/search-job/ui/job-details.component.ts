@@ -17,17 +17,17 @@ import { JobDto } from './job.dto';
               {{ jobView.position }}
             </h1>
             <div class="mfe-search-flex mfe-search-items-center mfe-search-gap-4 mfe-search-text-sm mfe-search-text-gray-600">
-              <span class="mfe-search-font-medium">{{ jobView.company?.name }}</span>
+              <span class="mfe-search-font-medium">{{ jobView.company.name }}</span>
               <span>•</span>
               <span>{{ jobView.location }}</span>
               <span>•</span>
               <span class="mfe-search-text-green-600 mfe-search-font-medium">{{ jobView.locationType }}</span>
             </div>
           </div>
-          @if (jobView.company?.avatar) {
+          @if (jobView.company.avatar) {
             <img
-              [src]="jobView.company?.avatar"
-              [alt]="jobView.company?.name"
+              [src]="jobView.company.avatar"
+              [alt]="jobView.company.name"
               class="mfe-search-w-16 mfe-search-h-16 mfe-search-rounded-lg mfe-search-object-cover" />
           }
         </div>

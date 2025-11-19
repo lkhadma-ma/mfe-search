@@ -1,31 +1,31 @@
 // job.dto.ts
 
 export interface JobDto {
-    id?: number;
-    position?: string;
-    location?: string;
-    locationType?: LocationType;
-    description?: string;
-    employmentType?: EmploymentType;
-    createdAt?: Date;
-    updatedAt?: Date;
-    company?: CompanyDto;
+    id: number;
+    position: string;
+    location: string;
+    locationType: LocationType;
+    description: string;
+    employmentType: EmploymentType;
+    createdAt: Date;
+    updatedAt: Date;
+    company: CompanyDto;
     skills: SkillDto[];
   }
   
   export interface CompanyDto {
-    id?: number;
-    name?: string;
-    avatar?: string;
-    description?: string;
-    website?: string;
-    size?: CompanySize;
+    id: number;
+    name: string;
+    avatar: string;
+    description: string;
+    website: string;
+    size: CompanySize;
   }
   
   export interface SkillDto {
-    id?: number;
-    name?: string;
-    category?: SkillCategory;
+    id: number;
+    name: string;
+    category: SkillCategory;
   }
   
   export enum LocationType {
