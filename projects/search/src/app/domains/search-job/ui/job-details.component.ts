@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, input } from '@angular/core';
+import { Component, EventEmitter, Input, Output, input, output } from '@angular/core';
 import { JobDto } from './job.dto';
 
 
@@ -7,38 +7,39 @@ import { JobDto } from './job.dto';
   imports: [],
   standalone: true,
   template: `
-    @if (job) {
+    @let jobView = job();
+    @if (jobView) {
       <!-- Header -->
       <div class="mfe-search-p-6 mfe-search-border-b mfe-search-border-gray-200">
         <div class="mfe-search-flex mfe-search-justify-between mfe-search-items-start mfe-search-mb-4">
           <div>
             <h1 class="mfe-search-text-2xl mfe-search-font-bold mfe-search-text-gray-900 mfe-search-mb-2">
-              {{ job.position }}
+              {{ jobView.position }}
             </h1>
             <div class="mfe-search-flex mfe-search-items-center mfe-search-gap-4 mfe-search-text-sm mfe-search-text-gray-600">
-              <span class="mfe-search-font-medium">{{ job.company?.name }}</span>
+              <span class="mfe-search-font-medium">{{ jobView.company?.name }}</span>
               <span>•</span>
-              <span>{{ job.location }}</span>
+              <span>{{ jobView.location }}</span>
               <span>•</span>
-              <span class="mfe-search-text-green-600 mfe-search-font-medium">{{ job.locationType }}</span>
+              <span class="mfe-search-text-green-600 mfe-search-font-medium">{{ jobView.locationType }}</span>
             </div>
           </div>
-          @if (job.company?.avatar) {
+          @if (jobView.company?.avatar) {
             <img
-              [src]="job.company?.avatar"
-              [alt]="job.company?.name"
+              [src]="jobView.company?.avatar"
+              [alt]="jobView.company?.name"
               class="mfe-search-w-16 mfe-search-h-16 mfe-search-rounded-lg mfe-search-object-cover" />
           }
         </div>
         <!-- Action Buttons -->
         <div class="mfe-search-flex mfe-search-gap-3 mfe-search-flex-wrap">
           <button
-            (click)="easyApply.emit(job)"
+            (click)="easyApply.emit(jobView)"
             [class]="isApplied() ? 'mfe-search-px-6 mfe-search-py-2 mfe-search-bg-green-100 mfe-search-text-green-800 mfe-search-rounded-lg mfe-search-font-medium mfe-search-border mfe-search-border-green-300 hover:mfe-search-bg-green-200 mfe-search-transition-colors' : 'mfe-search-px-6 mfe-search-py-2 mfe-search-bg-green-500 mfe-search-text-white mfe-search-rounded-lg mfe-search-font-medium hover:mfe-search-bg-green-600 mfe-search-transition-colors'">
             {{ isApplied() ? 'Applied ✓' : 'Easy Apply' }}
           </button>
           <button
-            (click)="saveJob.emit(job)"
+            (click)="saveJob.emit(jobView)"
             [class]="isSaved() ? 'mfe-search-px-6 mfe-search-py-2 mfe-search-bg-blue-100 mfe-search-text-blue-800 mfe-search-rounded-lg mfe-search-font-medium mfe-search-border mfe-search-border-blue-300 hover:mfe-search-bg-blue-200 mfe-search-transition-colors' : 'mfe-search-px-6 mfe-search-py-2 mfe-search-bg-white mfe-search-text-gray-700 mfe-search-rounded-lg mfe-search-font-medium mfe-search-border mfe-search-border-gray-300 hover:mfe-search-bg-gray-50 mfe-search-transition-colors'">
             {{ isSaved() ? 'Saved ✓' : 'Save' }}
           </button>
@@ -58,14 +59,14 @@ import { JobDto } from './job.dto';
           </div>
         </div>
         <!-- Skills Match -->
-        @if (job.skills && job.skills.length > 0) {
+        @if (jobView.skills && jobView.skills.length > 0) {
           <div class="mfe-search-bg-blue-50 mfe-search-border mfe-search-border-blue-200 mfe-search-rounded-lg mfe-search-p-4 mfe-search-mb-6">
             <h3 class="mfe-search-text-lg mfe-search-font-semibold mfe-search-text-gray-900 mfe-search-mb-2">Skills Match</h3>
             <p class="mfe-search-text-gray-600 mfe-search-mb-3">
-              {{ job.skills.length }} of 7 skills match your profile
+              {{ jobView.skills.length }} of 7 skills match your profile
             </p>
             <div class="mfe-search-flex mfe-search-flex-wrap mfe-search-gap-2">
-              @for (skill of job.skills; track skill) {
+              @for (skill of jobView.skills; track skill) {
                 <span class="mfe-search-bg-blue-100 mfe-search-text-blue-800 mfe-search-px-3 mfe-search-py-1 mfe-search-rounded-full mfe-search-text-sm mfe-search-font-medium">
                   {{ skill.name }}
                 </span>
@@ -77,24 +78,24 @@ import { JobDto } from './job.dto';
         <div class="mfe-search-mb-6">
           <h3 class="mfe-search-text-xl mfe-search-font-semibold mfe-search-text-gray-900 mfe-search-mb-4">About the job</h3>
           <div class="mfe-search-prose mfe-search-text-gray-700 mfe-search-leading-relaxed">
-            <p>{{ job.description }}</p>
+            <p>{{ jobView.description }}</p>
           </div>
         </div>
         <!-- Company Info -->
-        @if (job.company) {
+        @if (jobView.company) {
           <div class="mfe-search-border-t mfe-search-border-gray-200 mfe-search-pt-6">
             <h3 class="mfe-search-text-xl mfe-search-font-semibold mfe-search-text-gray-900 mfe-search-mb-4">About the company</h3>
             <div class="mfe-search-flex mfe-search-items-start mfe-search-gap-4">
-              @if (job.company.avatar) {
-                <img [src]="job.company.avatar" [alt]="job.company.name" class="mfe-search-w-16 mfe-search-h-16 mfe-search-rounded-lg mfe-search-object-cover" />
+              @if (jobView.company.avatar) {
+                <img [src]="jobView.company.avatar" [alt]="jobView.company.name" class="mfe-search-w-16 mfe-search-h-16 mfe-search-rounded-lg mfe-search-object-cover" />
               }
               <div>
-                <h4 class="mfe-search-text-lg mfe-search-font-semibold mfe-search-text-gray-900">{{ job.company.name }}</h4>
-                @if (job.company.size) {
-                  <p class="mfe-search-text-gray-600 mfe-search-mt-1">Company size: {{ job.company.size }}</p>
+                <h4 class="mfe-search-text-lg mfe-search-font-semibold mfe-search-text-gray-900">{{ jobView.company.name }}</h4>
+                @if (jobView.company.size) {
+                  <p class="mfe-search-text-gray-600 mfe-search-mt-1">Company size: {{ jobView.company.size }}</p>
                 }
-                @if (job.company.description) {
-                  <p class="mfe-search-text-gray-700 mfe-search-mt-2">{{ job.company.description }}</p>
+                @if (jobView.company.description) {
+                  <p class="mfe-search-text-gray-700 mfe-search-mt-2">{{ jobView.company.description }}</p>
                 }
               </div>
             </div>
@@ -129,10 +130,10 @@ import { JobDto } from './job.dto';
     `
 })
 export class JobDetailsComponent {
-  @Input() job: JobDto | null = null;
+  job = input<JobDto | null>();
   readonly isSaved = input(false);
   readonly isApplied = input(false);
 
-  @Output() easyApply = new EventEmitter<JobDto>();
-  @Output() saveJob = new EventEmitter<JobDto>();
+  easyApply = output<JobDto>();
+  saveJob = output<JobDto>();
 }
