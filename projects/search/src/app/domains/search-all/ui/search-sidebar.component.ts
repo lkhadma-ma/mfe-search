@@ -24,43 +24,46 @@ interface FilterSection {
      max-sm:mfe-search-bg-transparent max-sm:mfe-search-border-0 max-sm:mfe-search-p-0 max-sm:mfe-search-flex max-sm:mfe-search-flex-wrap
      max-sm:mfe-search-gap-2">
       <h3 class="mfe-search-text-sm mfe-search-font-semibold mfe-search-text-gray-900 mfe-search-mb-3 max-sm:mfe-search-hidden">{{ mainSection.title.label }}</h3>
-
-      <div
-        *ngFor="let item of mainSection.items"
-        class="mfe-search-text-sm mfe-search-text-gray-600 mfe-search-py-1 mfe-search-px-2 mfe-search-cursor-pointer hover:mfe-search-bg-gray-50 mfe-search-rounded max-sm:mfe-search-rounded-3xl max-sm:mfe-search-bg-white max-sm:mfe-search-border max-sm:mfe-search-border-gray-200 max-sm:mfe-search-p-2 max-sm:mfe-search-px-4"
+    
+      @for (item of mainSection.items; track item) {
+        <div
+          class="mfe-search-text-sm mfe-search-text-gray-600 mfe-search-py-1 mfe-search-px-2 mfe-search-cursor-pointer hover:mfe-search-bg-gray-50 mfe-search-rounded max-sm:mfe-search-rounded-3xl max-sm:mfe-search-bg-white max-sm:mfe-search-border max-sm:mfe-search-border-gray-200 max-sm:mfe-search-p-2 max-sm:mfe-search-px-4"
         [ngClass]="{
           'mfe-search-font-medium': mainActive() === item.value,
           'max-sm:hover:mfe-search-bg-green-900': mainActive() === item.value,
           'max-sm:mfe-search-text-white': mainActive() === item.value,
           'max-sm:mfe-search-bg-green-800': mainActive() === item.value
           }"
-        (click)="selectMain(item.value)"
-      >
-        {{ item.label }}
-      </div>
+          (click)="selectMain(item.value)"
+          >
+          {{ item.label }}
+        </div>
+      }
     </div>
-
+    
     <!-- SUB SECTIONS: only display the selected one -->
-    <div *ngFor="let section of filteredSections()" class="mfe-search-bg-white mfe-search-border mfe-search-border-gray-200 mfe-search-rounded-lg mfe-search-p-4
+    @for (section of filteredSections(); track section) {
+<div class="mfe-search-bg-white mfe-search-border mfe-search-border-gray-200 mfe-search-rounded-lg mfe-search-p-4
      max-sm:mfe-search-bg-transparent max-sm:mfe-search-border-0 max-sm:mfe-search-p-0 max-sm:mfe-search-flex max-sm:mfe-search-flex-wrap
      max-sm:mfe-search-gap-2">
-      <h3 class="mfe-search-text-sm mfe-search-font-semibold mfe-search-text-gray-900 mfe-search-mb-3 max-sm:mfe-search-hidden">{{ section.title.label }}</h3>
-
-      <div
-        *ngFor="let item of section.items"
-        class="mfe-search-text-sm mfe-search-text-gray-600 mfe-search-py-1 mfe-search-px-2 mfe-search-cursor-pointer hover:mfe-search-bg-gray-50 mfe-search-rounded max-sm:mfe-search-rounded-3xl max-sm:mfe-search-bg-white max-sm:mfe-search-border max-sm:mfe-search-border-gray-200 max-sm:mfe-search-p-2 max-sm:mfe-search-px-4"
+        <h3 class="mfe-search-text-sm mfe-search-font-semibold mfe-search-text-gray-900 mfe-search-mb-3 max-sm:mfe-search-hidden">{{ section.title.label }}</h3>
+        @for (item of section.items; track item) {
+          <div
+            class="mfe-search-text-sm mfe-search-text-gray-600 mfe-search-py-1 mfe-search-px-2 mfe-search-cursor-pointer hover:mfe-search-bg-gray-50 mfe-search-rounded max-sm:mfe-search-rounded-3xl max-sm:mfe-search-bg-white max-sm:mfe-search-border max-sm:mfe-search-border-gray-200 max-sm:mfe-search-p-2 max-sm:mfe-search-px-4"
         [ngClass]="{
           'mfe-search-font-medium':isActive(section.title.value, item.value),
           'max-sm:hover:mfe-search-bg-green-900':isActive(section.title.value, item.value),
           'max-sm:mfe-search-text-white':isActive(section.title.value, item.value),
           'max-sm:mfe-search-bg-green-800': isActive(section.title.value, item.value)
           }"
-        (click)="toggleItem(section.title.value, item.value)"
-      >
-        {{ item.label }}
+            (click)="toggleItem(section.title.value, item.value)"
+            >
+            {{ item.label }}
+          </div>
+        }
       </div>
-    </div>
-  `
+    }
+    `
 })
 export class SearchSidebarComponent {
 

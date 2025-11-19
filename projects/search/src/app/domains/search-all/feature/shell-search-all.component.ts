@@ -1,6 +1,6 @@
 // search-all.component.ts
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { SectionComponent } from "@shared/ui/section/section.component";
 import { SearchSidebarComponent } from '../ui/search-sidebar.component';
 import { SearchResultsComponent } from '../ui/search-results.component';
@@ -8,7 +8,7 @@ import { SearchAllStore } from '../data-access/search-all.store';
 
 @Component({
     selector: 'mfe-search-all',
-    imports: [CommonModule, SectionComponent, SearchSidebarComponent, SearchResultsComponent],
+    imports: [SectionComponent, SearchSidebarComponent, SearchResultsComponent],
     template: `
     <mfe-search-section ngxClass="md:mfe-search-pt-[5rem]">
         <div class="mfe-search-w-full mfe-search-mx-auto mfe-search-px-2 mfe-search-py-6 mfe-search-grid max-sm:mfe-search-grid-cols-1 mfe-search-grid-cols-4 mfe-search-gap-6">

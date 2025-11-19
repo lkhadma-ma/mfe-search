@@ -1,10 +1,10 @@
 // promo-card.component.ts
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
     selector: 'mfe-search-promo-card',
-    imports: [CommonModule],
+    imports: [],
     template: `
         <div class="mfe-search-bg-gray-50 mfe-search-border mfe-search-border-gray-200 mfe-search-rounded-lg mfe-search-p-4 mfe-search-flex mfe-search-items-center mfe-search-justify-between">
             <div class="mfe-search-flex-1">

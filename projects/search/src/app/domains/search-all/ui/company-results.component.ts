@@ -1,5 +1,5 @@
 import { Component, computed, input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { Comapny } from '../data-access/company';
 import { ComapnyCardComponent } from "./company-card.component";
 import { NotFoundComponent } from './not-found.component';
@@ -10,7 +10,7 @@ import { LoadingComponent } from "./loading.component";
     host: {
         class: 'mfe-search-block mfe-search-bg-white mfe-search-border mfe-search-border-gray-200 mfe-search-rounded-lg mfe-search-p-6'
     },
-    imports: [CommonModule, ComapnyCardComponent, NotFoundComponent, LoadingComponent],
+    imports: [ComapnyCardComponent, NotFoundComponent, LoadingComponent],
     template: `
             <h2 class="mfe-search-text-xl mfe-search-font-semibold mfe-search-text-gray-900 mfe-search-mb-4">Company</h2>
 

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { PostCardComponent } from './post-card.component';
 import { PromoCardComponent } from './promo-card.component';
 
@@ -8,7 +8,7 @@ import { PromoCardComponent } from './promo-card.component';
     host: {
         class: 'mfe-search-block mfe-search-bg-white mfe-search-border mfe-search-border-gray-200 mfe-search-rounded-lg mfe-search-p-6'
     },
-    imports: [CommonModule, PostCardComponent, PromoCardComponent],
+    imports: [PostCardComponent, PromoCardComponent],
     template: `
             <h2 class="mfe-search-text-xl mfe-search-font-semibold mfe-search-text-gray-900 mfe-search-mb-4">Posts</h2>
             

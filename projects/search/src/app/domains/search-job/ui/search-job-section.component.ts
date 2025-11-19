@@ -18,9 +18,9 @@ import { FormsModule } from '@angular/forms';
           Didn't find job you were looking for?
         </p>
 
-        <form #form="ngForm" (submit)="onSubmit.emit(form.value)">
+        <form #form="ngForm" (submit)="form.valid && onSubmit.emit(form.value)">
           <label class="mfe-search-mx-auto mfe-search-mt-8 mfe-search-relative mfe-search-bg-white
-              mfe-search-max-w-2xl mfe-search-flex mfe-search-flex-col
+              mfe-search-max-w-5xl mfe-search-flex mfe-search-flex-col
              md:mfe-search-flex-row mfe-search-items-center mfe-search-justify-center
              mfe-search-border mfe-search-py-2 mfe-search-px-2 mfe-search-rounded-2xl
              mfe-search-gap-2 mfe-search-shadow-2xl focus-within:mfe-search-border-gray-300" for="search-bar">
