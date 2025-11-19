@@ -1,8 +1,8 @@
 import { Component, computed, input, output, signal } from '@angular/core';
-import { CompanySize, EmploymentType, JobDto, LocationType, SkillCategory } from './job.dto';
-import { JobSearchHeaderComponent } from './job-search-header.component';
-import { JobListComponent } from './job-list.component';
-import { JobDetailsComponent } from './job-details.component';
+import { CompanySize, EmploymentType, JobDto, LocationType, SkillCategory } from '../../../ui/job.dto';
+import { JobSearchHeaderComponent } from '../../../ui/job-search-header.component';
+import { JobListComponent } from '../../../ui/job-list.component';
+import { JobDetailsComponent } from '../../../ui/job-details.component';
 
 @Component({
   selector: 'mfe-search-job-results-section',
