@@ -65,7 +65,6 @@ import { NgStyle } from '@angular/common';
           (saveJob)="onSaveJob($event)"
         ></job-details>
       </div>
-    
     </div>
   }
   `
@@ -160,8 +159,6 @@ export class SearchJobResultsComponent implements OnInit {
       this.isDraggingSheet = false; // let page scroll normally
     }
   }
-  
-  
 
   moveTouch(event: TouchEvent) {
     if (!this.dragging || !this.isDraggingSheet) return;
@@ -178,8 +175,6 @@ export class SearchJobResultsComponent implements OnInit {
     event.preventDefault(); // stops page from scrolling while dragging sheet
   }
   
-  
-
   endTouch() {
     if (!this.isDraggingSheet) return;
   
@@ -201,6 +196,5 @@ export class SearchJobResultsComponent implements OnInit {
     if (this.sheetHeight() < 50) this.closeSheet();
     else this.sheetHeight.set(90);
   }
-  
   
 }
