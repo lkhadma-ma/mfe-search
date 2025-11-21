@@ -1,22 +1,31 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { SectionComponent } from "@shared/ui/section/section.component";
-import { SearchJobSectionComponent } from "./search-box/feature/shell-search-box.component";
-import { SearchJobResultsSectionComponent } from "./jobs-results/feature/shell-job-results.component";
+import { SearchJobResultsComponent } from "./jobs-results/feature/shell-job-results.component";
+import { SearchJobStore } from '../data-access/search-job.store';
 
 @Component({
     selector: 'mfe-search-job',
     templateUrl: 'shell-search-job.component.html',
-    imports: [SectionComponent, SearchJobSectionComponent, SearchJobResultsSectionComponent]
+    imports: [SectionComponent, SearchJobResultsComponent]
 })
 
-export class ShellSearchJobComponent {
+export class ShellSearchJobComponent implements OnInit {
+    private debounceTimer: ReturnType<typeof setTimeout> | null = null;
+    private searchJobStore = inject(SearchJobStore);
+    
+    jobs = this.searchJobStore.jobs;
 
-    private openSignal = signal<boolean>(true);
-
-    isOpen = this.openSignal.asReadonly();
-
-    onSubmit(input :string){
-        this.openSignal.set(true);
+    ngOnInit(): void {
+        window.addEventListener('mfe-search:domains:job', this.listener);
     }
 
+    listener = (event: Event) => {
+        const { detail } = event as CustomEvent;
+        const safe = detail.replace(/<[^>]*>/g, '').trim();
+
+        if (this.debounceTimer) clearTimeout(this.debounceTimer);
+            this.debounceTimer = setTimeout(() => {
+                this.searchJobStore.loadSearchedJobs(safe);
+        }, 300);
+    };
 }

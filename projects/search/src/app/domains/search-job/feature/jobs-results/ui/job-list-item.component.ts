@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { JobDto } from './job.dto';
+import { Job } from '../../../data-access/job';
 
 
 @Component({
@@ -24,7 +24,7 @@ import { JobDto } from './job.dto';
                 }
             
                 <div class="mfe-search-flex-1 mfe-search-min-w-0">
-                <h4 class="mfe-search-text-sm mfe-search-font-semibold mfe-search-text-gray-900 mfe-search-truncate">
+                <h4 class="mfe-search-text-sm mfe-search-font-semibold mfe-search-text-gray-900">
                     {{ jobView.position }}
                 </h4>
                 <p class="mfe-search-text-xs mfe-search-text-gray-600 mfe-search-mt-1 mfe-search-truncate">
@@ -52,9 +52,8 @@ import { JobDto } from './job.dto';
     `
 })
 export class JobListItemComponent {
-  job = input<JobDto>();
-  readonly selected = input(false);
-  readonly applied = input(false);
-
+  job = input<Job>();
+  selected = input(false);
+  applied = input(false);
   select = output<number>();
 }

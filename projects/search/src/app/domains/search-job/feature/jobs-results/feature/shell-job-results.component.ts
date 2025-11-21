@@ -1,166 +1,107 @@
-import { Component, computed, input, output, signal } from '@angular/core';
-import { CompanySize, EmploymentType, JobDto, LocationType, SkillCategory } from '../../../ui/job.dto';
-import { JobSearchHeaderComponent } from '../../../ui/job-search-header.component';
-import { JobListComponent } from '../../../ui/job-list.component';
-import { JobDetailsComponent } from '../../../ui/job-details.component';
+import { Component, OnInit, computed, input, output, signal } from '@angular/core';
+import { CompanySize, EmploymentType, Job, LocationType } from '../../../data-access/job';
+import { JobListComponent } from '../ui/job-list.component';
+import { JobDetailsComponent } from '../ui/job-details.component';
+import { NgStyle } from '@angular/common';
 
 @Component({
   selector: 'mfe-search-job-results-section',
   standalone: true,
-  imports: [JobSearchHeaderComponent, JobListComponent, JobDetailsComponent],
+  imports: [JobListComponent, JobDetailsComponent, NgStyle],
   host: {
     class: 'mfe-search-w-full'
   },
   template: `
-  <div class="mfe-search-flex mfe-search-h-full mfe-search-bg-white mfe-search-rounded-2xl mfe-search-p-3">
+
+  @if(isDesktop()){
+    <div class="mfe-search-flex mfe-search-min-h-[85vh] mfe-search-max-h-[85vh] mfe-search-bg-white mfe-search-rounded-2xl mfe-search-p-3">
     <!-- Left Column - Job List (30%) -->
-    <div class="mfe-search-w-1/3 mfe-search-border-r mfe-search-border-gray-200 mfe-search-flex mfe-search-flex-col mfe-search-h-full">
-      <job-search-header
-        [searchTerm]="searchTerm()"
-        [isSearching]="isSearching()"
-        (searchTermChange)="searchTerm.set($event)"
-        (searchRequested)="searchRequested.emit($event)"
-        (startSearch)="startSearch()"
-      ></job-search-header>
+      <div class="mfe-search-w-full sm:mfe-search-w-1/3 mfe-search-border-gray-200 mfe-search-flex mfe-search-flex-col mfe-search-min-h-[-webkit-fill-available]">
+        <job-list class="mfe-search-min-h-[-webkit-fill-available] mfe-search-contents"
+          [jobs]="jobs()"
+          [selectedJobId]="selectedJobId()"
+          [appliedJobs]="appliedJobs()"
+          (selectJob)="selectJob($event)"
+        ></job-list>
+      </div>
 
-      <job-list
-        [jobs]="filteredJobs()"
-        [selectedJobId]="selectedJobId()"
-        [appliedJobs]="appliedJobs()"
-        [isSearching]="isSearching()"
-        (selectJob)="selectJob($event)"
-      ></job-list>
+      <!-- Right Column - Job Details (70%) -->
+      <div class="mfe-search-w-full sm:mfe-search-w-2/3 mfe-search-border-l mfe-search-flex mfe-search-flex-col mfe-search-overflow-y-auto mfe-search-no-scrollbar mfe-search-min-h-[-webkit-fill-available]">
+        <job-details
+          [job]="selectedJob()"
+          [isSaved]="isJobSaved(selectedJobId() || 0)()"
+          [isApplied]="isJobApplied(selectedJobId() || 0)()"
+          (easyApply)="onEasyApply($event)"
+          (saveJob)="onSaveJob($event)"
+        ></job-details>
+      </div>
+    
     </div>
+  } @else {
+    <div class="mfe-search-flex max-sm:mfe-search-flex-col mfe-search-bg-white">
+    <!-- Left Column  -->
+      <div class="mfe-search-w-full mfe-search-border-gray-200 mfe-search-flex mfe-search-flex-col mfe-search-min-h-[-webkit-fill-available]">
+        <job-list class="mfe-search-min-h-[-webkit-fill-available] mfe-search-contents"
+          [jobs]="jobs()"
+          [selectedJobId]="selectedJobId()"
+          [appliedJobs]="appliedJobs()"
+          (selectJob)="openSheet($event)"
+        ></job-list>
+      </div>
 
-    <!-- Right Column - Job Details (70%) -->
-    <div class="mfe-search-w-2/3  mfe-search-flex mfe-search-flex-col mfe-search-h-full">
-      <job-details
-        [job]="selectedJob()"
-        [isSaved]="isJobSaved(selectedJobId() || 0)()"
-        [isApplied]="isJobApplied(selectedJobId() || 0)()"
-        (easyApply)="onEasyApply($event)"
-        (saveJob)="onSaveJob($event)"
-      ></job-details>
+    <!-- Right Column -->
+      <div
+        class="mfe-search-fixed mfe-search-bottom-0 mfe-search-left-0 mfe-search-w-full mfe-search-bg-white mfe-search-border-t mfe-search-rounded-t-2xl mfe-search-shadow-lg mfe-search-flex mfe-search-flex-col mfe-search-overflow-y-auto mfe-search-no-scrollbar mfe-search-transition-all mfe-search-duration-300 mfe-search-ease-in-out"
+        [ngStyle]="{'height': sheetHeight() + 'vh', 'visibility': sheetHeight() > 0 ? 'visible' : 'hidden'}"
+        (touchstart)="startTouch($event)"
+        (touchmove)="moveTouch($event)"
+        (touchend)="endTouch()"
+      >
+        <job-details class="mfe-search-pb-[50px]"
+          [job]="selectedJob()"
+          [isSaved]="isJobSaved(selectedJobId() || 0)()"
+          [isApplied]="isJobApplied(selectedJobId() || 0)()"
+          (easyApply)="onEasyApply($event)"
+          (saveJob)="onSaveJob($event)"
+        ></job-details>
+      </div>
+    
     </div>
-  </div>
+  }
   `
 })
-export class SearchJobResultsSectionComponent {
+export class SearchJobResultsComponent implements OnInit {
   // inputs to allow parent override
-  jobs = input<JobDto[]>([
-    {
-      id: 1,
-      position: 'Senior Angular Developer',
-      location: 'Spain (Remote)',
-      locationType: LocationType.REMOTE,
-      description: 'Build and maintain Angular applications...',
-      employmentType: EmploymentType.FULL_TIME,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      company: {
-        id: 10,
-        website:'',
-        name: 'Tech Innovators',
-        avatar: 'https://placehold.co/100x100',
-        size: CompanySize.MEDIUM,
-        description: 'A company focused on innovative web platforms.'
-      },
-      skills: [
-        { id: 1, name: 'Angular', category: SkillCategory.FRONTEND },
-        { id: 2, name: 'TypeScript', category: SkillCategory.FRONTEND },
-        { id: 3, name: 'RxJS', category: SkillCategory.FRONTEND }
-      ]
-    },
-    {
-      id: 2,
-      position: 'Backend Node.js Engineer',
-      location: 'Germany (Hybrid)',
-      locationType: LocationType.HYBRID,
-      description: 'Work on high-performance backend systems...',
-      employmentType: EmploymentType.CONTRACT,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      company: {
-        website:'',
-        description: '',
-        id: 11,
-        name: 'Cloud Systems EU',
-        avatar: 'https://placehold.co/100x100',
-        size: CompanySize.LARGE
-      },
-      skills: [
-        { id: 4, name: 'Node.js', category: SkillCategory.BACKEND },
-        { id: 5, name: 'PostgreSQL', category: SkillCategory.DATABASE },
-        { id: 6, name: 'Docker', category: SkillCategory.DEVOPS }
-      ]
-    },
-    {
-      id: 3,
-      position: 'Mobile Flutter Developer',
-      location: 'USA (On-site)',
-      locationType: LocationType.ON_SITE,
-      description: 'Create cross-platform mobile apps using Flutter...',
-      employmentType: EmploymentType.FULL_TIME,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      company: {
-        website:'',
-        description: '',
-        id: 12,
-        name: 'Appify Labs',
-        avatar: 'https://placehold.co/100x100',
-        size: CompanySize.SMALL
-      },
-      skills: [
-        { id: 7, name: 'Flutter', category: SkillCategory.MOBILE },
-        { id: 8, name: 'Dart', category: SkillCategory.MOBILE }
-      ]
-    }
-  ]);
-  totalResults = input<number>(0);
-  userHasPremium = input<boolean>(false);
+  jobs = input<Job[] | undefined>(undefined);
 
-  // output
-  searchRequested = output<string>();
-
-  // signals
-  searchTerm = signal<string>('');
   selectedJobId = signal<number | null>(null);
   savedJobs = signal<Set<number>>(new Set());
   appliedJobs = signal<Set<number>>(new Set());
-  isSearching = signal<boolean>(false);
 
-  // computed
-  filteredJobs = computed(() => {
-    // simple filter on searchTerm if provided
-    const term = this.searchTerm().trim().toLowerCase();
-    const jobs = this.jobs();
-    if (!term) return jobs;
-    return jobs.filter(j =>
-      (j.position || '').toLowerCase().includes(term) ||
-      (j.company?.name || '').toLowerCase().includes(term) ||
-      (j.location || '').toLowerCase().includes(term)
-    );
-  });
+  isDesktop = signal<boolean>(window.innerWidth >= 640);
+  private mediaQuery!: MediaQueryList;
+  sheetHeight = signal(0);
 
   selectedJob = computed(() => {
     const id = this.selectedJobId();
     if (!id) return null;
-    return this.jobs().find(j => j.id === id) || null;
+    return this.jobs()?.find(j => j.id === id) || null;
   });
 
-  startSearch() {
-    // caller will have emitted searchRequested; here we manage isSearching UX
-    this.isSearching.set(true);
-    // simulate finish — in real app, parent will provide results and set signal
-    setTimeout(() => this.isSearching.set(false), 800);
+  ngOnInit() {
+    this.mediaQuery = window.matchMedia('(min-width: 640px)');
+    this.isDesktop.set(this.mediaQuery.matches);
+
+    this.mediaQuery.addEventListener('change', (e) => {
+      this.isDesktop.set(e.matches);
+    });
   }
 
   selectJob(id: number) {
     this.selectedJobId.set(id);
   }
 
-  onEasyApply(job: JobDto) {
+  onEasyApply(job: Job) {
     if (!job.id) return;
     this.appliedJobs.update(s => {
       const set = new Set(s);
@@ -170,7 +111,7 @@ export class SearchJobResultsSectionComponent {
     });
   }
 
-  onSaveJob(job: JobDto) {
+  onSaveJob(job: Job) {
     if (!job.id) return;
     this.savedJobs.update(s => {
       const set = new Set(s);
@@ -182,4 +123,84 @@ export class SearchJobResultsSectionComponent {
 
   isJobSaved = (jobId: number) => computed(() => this.savedJobs().has(jobId));
   isJobApplied = (jobId: number) => computed(() => this.appliedJobs().has(jobId));
+
+  openSheet(id: number) {
+    this.selectJob(id);
+    this.sheetHeight.set(90);
+  }
+
+  closeSheet() {
+    this.sheetHeight.set(0);
+  }
+
+  private startY = 0;
+  private currentY = 0;
+  private dragging = false;
+  private isDraggingSheet = false;
+
+  private touchStartTime = 0;
+
+
+  startTouch(event: TouchEvent) {
+    const touchY = event.touches[0].clientY;
+  
+    // Sheet is closed → do nothing
+    if (this.sheetHeight() === 0) return;
+  
+    const sheetTop = window.innerHeight - (window.innerHeight * (this.sheetHeight() / 100));
+  
+    // Only start drag if touch begins in top 40px of sheet
+    if (touchY < sheetTop + 40) {
+      this.isDraggingSheet = true;
+      this.dragging = true;
+      this.startY = touchY;
+      this.touchStartTime = performance.now();
+      event.preventDefault(); // stop page scroll
+    } else {
+      this.isDraggingSheet = false; // let page scroll normally
+    }
+  }
+  
+  
+
+  moveTouch(event: TouchEvent) {
+    if (!this.dragging || !this.isDraggingSheet) return;
+  
+    const currentY = event.touches[0].clientY;
+    const diff = currentY - this.startY;
+  
+    if (diff > 0) {
+      // Move sheet downward
+      this.sheetHeight.set(Math.max(20, 90 - (diff / window.innerHeight) * 100));
+    }
+  
+    this.currentY = currentY;
+    event.preventDefault(); // stops page from scrolling while dragging sheet
+  }
+  
+  
+
+  endTouch() {
+    if (!this.isDraggingSheet) return;
+  
+    this.dragging = false;
+    this.isDraggingSheet = false;
+  
+    const endTime = performance.now();
+    const duration = endTime - this.touchStartTime;
+    const distance = this.currentY - this.startY;
+    const velocity = distance / duration;
+  
+    const FAST_SWIPE_VELOCITY = 0.6;
+  
+    if (velocity > FAST_SWIPE_VELOCITY && distance > 40) {
+      this.closeSheet();
+      return;
+    }
+  
+    if (this.sheetHeight() < 50) this.closeSheet();
+    else this.sheetHeight.set(90);
+  }
+  
+  
 }

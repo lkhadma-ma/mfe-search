@@ -1,10 +1,11 @@
 import { Component, input, output } from '@angular/core';
-import { JobDto } from './job.dto';
+import { Job } from '../../../data-access/job';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
   selector: 'job-details',
-  imports: [],
+  imports: [RouterLink],
   standalone: true,
   template: `
     @let jobView = job();
@@ -13,15 +14,15 @@ import { JobDto } from './job.dto';
       <div class="mfe-search-p-6 mfe-search-border-b mfe-search-border-gray-200">
         <div class="mfe-search-flex mfe-search-justify-between mfe-search-items-start mfe-search-mb-4">
           <div>
-            <h1 class="mfe-search-text-2xl mfe-search-font-bold mfe-search-text-gray-900 mfe-search-mb-2">
+            <h1 class="mfe-search-text-xl max-sm:mfe-search-max-w-[90%] sm:mfe-search-text-2xl mfe-search-font-bold mfe-search-text-gray-900 mfe-search-mb-2">
               {{ jobView.position }}
             </h1>
-            <div class="mfe-search-flex mfe-search-items-center mfe-search-gap-4 mfe-search-text-sm mfe-search-text-gray-600">
-              <span class="mfe-search-font-medium">{{ jobView.company.name }}</span>
+            <div class="mfe-search-flex mfe-search-flex-wrap sm:mfe-search-flex-row mfe-search-items-center mfe-search-gap-2 sm:mfe-search-gap-4 mfe-search-text-sm mfe-search-text-gray-600">
+              <span class="mfe-search-font-medium mfe-search-min-w-max">{{ jobView.company.name }}</span>
               <span>•</span>
-              <span>{{ jobView.location }}</span>
+              <span class="mfe-search-min-w-max">{{ jobView.location }}</span>
               <span>•</span>
-              <span class="mfe-search-text-green-600 mfe-search-font-medium">{{ jobView.locationType }}</span>
+              <span class="mfe-search-text-green-600 mfe-search-font-medium mfe-search-min-w-max">{{ jobView.locationType }}</span>
             </div>
           </div>
           @if (jobView.company.avatar) {
@@ -68,7 +69,7 @@ import { JobDto } from './job.dto';
             <div class="mfe-search-flex mfe-search-flex-wrap mfe-search-gap-2">
               @for (skill of jobView.skills; track skill) {
                 <span class="mfe-search-bg-blue-100 mfe-search-text-blue-800 mfe-search-px-3 mfe-search-py-1 mfe-search-rounded-full mfe-search-text-sm mfe-search-font-medium">
-                  {{ skill.name }}
+                  {{ skill.label }}
                 </span>
               }
             </div>
@@ -90,12 +91,12 @@ import { JobDto } from './job.dto';
                 <img [src]="jobView.company.avatar" [alt]="jobView.company.name" class="mfe-search-w-16 mfe-search-h-16 mfe-search-rounded-lg mfe-search-object-cover" />
               }
               <div>
-                <h4 class="mfe-search-text-lg mfe-search-font-semibold mfe-search-text-gray-900">{{ jobView.company.name }}</h4>
-                @if (jobView.company.size) {
-                  <p class="mfe-search-text-gray-600 mfe-search-mt-1">Company size: {{ jobView.company.size }}</p>
+                <a [routerLink]="['/lk',jobView.company.username]" class="mfe-search-text-lg mfe-search-font-semibold mfe-search-text-gray-900 mfe-search-cursor-pointer">{{ jobView.company.name }}</a>
+                @if (jobView.company.about.companySize) {
+                  <p class="mfe-search-text-gray-600 mfe-search-mt-1">Company size: {{ jobView.company.about.companySize }}</p>
                 }
-                @if (jobView.company.description) {
-                  <p class="mfe-search-text-gray-700 mfe-search-mt-2">{{ jobView.company.description }}</p>
+                @if (jobView.company.about.overview) {
+                  <p class="mfe-search-text-gray-700 mfe-search-mt-2">{{ jobView.company.about.overview }}</p>
                 }
               </div>
             </div>
@@ -119,7 +120,7 @@ import { JobDto } from './job.dto';
         </div>
       </div>
     } @else {
-      <div class="mfe-search-flex-1 mfe-search-flex mfe-search-items-center mfe-search-justify-center mfe-search-text-gray-500">
+      <div class="mfe-search-flex-1 mfe-search-h-full mfe-search-flex mfe-search-items-center mfe-search-justify-center mfe-search-text-gray-500">
         <div class="mfe-search-text-center">
           <h3 class="mfe-search-text-lg mfe-search-font-semibold mfe-search-mb-2">Select a job to view details</h3>
           <p>Choose a job from the list to see the complete information</p>
@@ -130,10 +131,9 @@ import { JobDto } from './job.dto';
     `
 })
 export class JobDetailsComponent {
-  job = input<JobDto | null>();
-  readonly isSaved = input(false);
-  readonly isApplied = input(false);
-
-  easyApply = output<JobDto>();
-  saveJob = output<JobDto>();
+  job = input<Job | null>();
+  isSaved = input(false);
+  isApplied = input(false);
+  easyApply = output<Job>();
+  saveJob = output<Job>();
 }
