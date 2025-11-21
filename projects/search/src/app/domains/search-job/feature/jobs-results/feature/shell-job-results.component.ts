@@ -143,20 +143,18 @@ export class SearchJobResultsComponent implements OnInit {
   startTouch(event: TouchEvent) {
     const touchY = event.touches[0].clientY;
   
-    // Sheet is closed → do nothing
     if (this.sheetHeight() === 0) return;
   
     const sheetTop = window.innerHeight - (window.innerHeight * (this.sheetHeight() / 100));
   
-    // Only start drag if touch begins in top 40px of sheet
     if (touchY < sheetTop + 40) {
       this.isDraggingSheet = true;
       this.dragging = true;
       this.startY = touchY;
       this.touchStartTime = performance.now();
-      event.preventDefault(); // stop page scroll
+      event.preventDefault();
     } else {
-      this.isDraggingSheet = false; // let page scroll normally
+      this.isDraggingSheet = false;
     }
   }
 
@@ -167,12 +165,11 @@ export class SearchJobResultsComponent implements OnInit {
     const diff = currentY - this.startY;
   
     if (diff > 0) {
-      // Move sheet downward
       this.sheetHeight.set(Math.max(20, 90 - (diff / window.innerHeight) * 100));
     }
   
     this.currentY = currentY;
-    event.preventDefault(); // stops page from scrolling while dragging sheet
+    event.preventDefault();
   }
   
   endTouch() {
