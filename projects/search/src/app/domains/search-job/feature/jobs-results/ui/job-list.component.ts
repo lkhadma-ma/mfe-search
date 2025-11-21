@@ -21,7 +21,6 @@ import { JobListItemComponent } from './job-list-item.component';
           <job-list-item
             [job]="job"
             [selected]="selectedJobId() === job.id"
-            [applied]="appliedJobs().has(job.id!)"
             (select)="selectJob.emit($event)"
           ></job-list-item>
         }
@@ -39,6 +38,5 @@ import { JobListItemComponent } from './job-list-item.component';
 export class JobListComponent {
   jobs = input<Job[] | undefined>(undefined);
   selectedJobId = input<number | null>(null);
-  appliedJobs = input<Set<number>>(new Set());
   selectJob =output<number>();
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, computed, input, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, input, signal } from '@angular/core';
 import { Job } from '../../../data-access/job';
 import { JobListComponent } from '../ui/job-list.component';
 import { JobDetailsComponent } from '../ui/job-details.component';
@@ -20,25 +20,15 @@ import { NgStyle } from '@angular/common';
         <job-list class="mfe-search-min-h-[-webkit-fill-available] mfe-search-contents"
           [jobs]="jobs()"
           [selectedJobId]="selectedJobId()"
-          [appliedJobs]="appliedJobs()"
           (selectJob)="selectJob($event)"
         ></job-list>
       </div>
 
       <!-- Right Column - Job Details (70%) -->
       <div class="mfe-search-w-full sm:mfe-search-w-2/3 mfe-search-border-l mfe-search-flex mfe-search-flex-col mfe-search-overflow-y-auto mfe-search-no-scrollbar mfe-search-min-h-[-webkit-fill-available]">
-        <!-- <job-details
-          [job]="selectedJob()"
-          [isSaved]="isJobSaved(selectedJobId() || 0)()"
-          (saveJob)="onSaveJob($event)"
-          [isApplied]="isJobApplied(selectedJobId() || 0)()"
-          (easyApply)="onEasyApply($event)"
-        ></job-details> -->
 
         <job-details
           [job]="selectedJob()"
-          [isApplied]="isJobApplied(selectedJobId() || 0)()"
-          (easyApply)="onEasyApply($event)"
         ></job-details>
       </div>
     
@@ -50,7 +40,6 @@ import { NgStyle } from '@angular/common';
         <job-list class="mfe-search-min-h-[-webkit-fill-available] mfe-search-contents"
           [jobs]="jobs()"
           [selectedJobId]="selectedJobId()"
-          [appliedJobs]="appliedJobs()"
           (selectJob)="openSheet($event)"
         ></job-list>
       </div>
@@ -66,14 +55,11 @@ import { NgStyle } from '@angular/common';
         <!-- <job-details class="mfe-search-pb-[50px]"
           [job]="selectedJob()"
           [isSaved]="isJobSaved(selectedJobId() || 0)()"
-          [isApplied]="isJobApplied(selectedJobId() || 0)()"
           (easyApply)="onEasyApply($event)"
           (saveJob)="onSaveJob($event)"
         ></job-details> -->
         <job-details class="mfe-search-pb-[50px]"
           [job]="selectedJob()"
-          [isApplied]="isJobApplied(selectedJobId() || 0)()"
-          (easyApply)="onEasyApply($event)"
         ></job-details>
       </div>
     </div>
@@ -81,12 +67,11 @@ import { NgStyle } from '@angular/common';
   `
 })
 export class SearchJobResultsComponent implements OnInit {
-  // inputs to allow parent override
+
   jobs = input<Job[] | undefined>(undefined);
 
   selectedJobId = signal<number | null>(null);
-  appliedJobs = signal<Set<number>>(new Set());
-  
+
   isDesktop = signal<boolean>(window.innerWidth >= 640);
   private mediaQuery!: MediaQueryList;
   sheetHeight = signal(0);
@@ -109,18 +94,6 @@ export class SearchJobResultsComponent implements OnInit {
   selectJob(id: number) {
     this.selectedJobId.set(id);
   }
-
-  onEasyApply(job: Job) {
-    if (!job.id) return;
-    this.appliedJobs.update(s => {
-      const set = new Set(s);
-      if (set.has(job.id!)) set.delete(job.id!);
-      else set.add(job.id!);
-      return set;
-    });
-  }
-
-  isJobApplied = (jobId: number) => computed(() => this.appliedJobs().has(jobId));
 
   openSheet(id: number) {
     this.selectJob(id);
@@ -193,19 +166,4 @@ export class SearchJobResultsComponent implements OnInit {
     else this.sheetHeight.set(90);
   }
   
-  /** this parte will be active when we add save funcionality
-  savedJobs = signal<Set<number>>(new Set());
-
-  onSaveJob(job: Job) {
-    if (!job.id) return;
-    this.savedJobs.update(s => {
-      const set = new Set(s);
-      if (set.has(job.id!)) set.delete(job.id!);
-      else set.add(job.id!);
-      return set;
-    });
-  }
-
-  isJobSaved = (jobId: number) => computed(() => this.savedJobs().has(jobId));
-   */
 }

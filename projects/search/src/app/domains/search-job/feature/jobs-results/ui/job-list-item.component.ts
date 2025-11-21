@@ -38,12 +38,9 @@ import { Job } from '../../../data-access/job';
                     <span class="mfe-search-text-xs mfe-search-bg-green-100 mfe-search-text-green-800 mfe-search-px-2 mfe-search-py-1 mfe-search-rounded-full">
                     {{ jobView.employmentType }}
                     </span>
-            
-                    @if (applied()) {
                     <span class="mfe-search-text-xs mfe-search-bg-green-100 mfe-search-text-green-800 mfe-search-px-2 mfe-search-py-1 mfe-search-rounded-full">
-                        Applied
+                        {{jobView.locationType}}
                     </span>
-                    }
                 </div>
                 </div>
             </div>
@@ -54,6 +51,5 @@ import { Job } from '../../../data-access/job';
 export class JobListItemComponent {
   job = input<Job>();
   selected = input(false);
-  applied = input(false);
   select = output<number>();
 }
