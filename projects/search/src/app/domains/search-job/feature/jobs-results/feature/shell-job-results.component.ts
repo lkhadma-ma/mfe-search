@@ -1,5 +1,5 @@
-import { Component, OnInit, computed, input, output, signal } from '@angular/core';
-import { CompanySize, EmploymentType, Job, LocationType } from '../../../data-access/job';
+import { Component, OnInit, computed, input, signal } from '@angular/core';
+import { Job } from '../../../data-access/job';
 import { JobListComponent } from '../ui/job-list.component';
 import { JobDetailsComponent } from '../ui/job-details.component';
 import { NgStyle } from '@angular/common';
