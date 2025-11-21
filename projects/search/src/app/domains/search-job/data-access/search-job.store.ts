@@ -17,6 +17,9 @@ export class SearchJobStore {
                 .subscribe({
                     next: (jobs)=>{
                         this.jobsSignal.set(jobs);
+                    },
+                    error:()=>{
+                        this.jobsSignal.set([]);
                     }
                 })
     }

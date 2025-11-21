@@ -6,7 +6,7 @@ import { Job } from './job';
     providedIn: 'root'
 })
 export class SearchJobService {
-    private url= 'http://localhost:8080/mbe-user/api/v1'; 
+    private url= 'http://localhost:8083/mbe-company/api/v1'; 
     private http = inject(AuthHttpService);
     
     loadSearchedJobs(input: string){
@@ -14,6 +14,6 @@ export class SearchJobService {
     }
 
     private convertInputToQuery(input: string) {
-        return input.trim().split(' ').map(m=> m.trim()).join("+") ?? ''
+        return input.trim().split(' ').map(m=> m.trim()).join("-") ?? ''
     }
 }

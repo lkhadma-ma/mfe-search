@@ -1,4 +1,4 @@
-export interface Job {
+  export interface Job {
     id: number;
     position: string;
     location: string;
