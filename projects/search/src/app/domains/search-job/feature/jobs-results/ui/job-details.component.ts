@@ -2,11 +2,12 @@ import { Component, input, output } from '@angular/core';
 import { Job } from '../../../data-access/job';
 import { RouterLink } from '@angular/router';
 import { TimeAgoPipe } from '@shared/pipes/time-ago.pipe';
+import { MarkdownPipe } from '@shared/pipes/markdown.pipe';
 
 
 @Component({
   selector: 'job-details',
-  imports: [RouterLink, TimeAgoPipe],
+  imports: [RouterLink, TimeAgoPipe, MarkdownPipe],
   standalone: true,
   template: `
     @let jobView = job();
@@ -78,7 +79,7 @@ import { TimeAgoPipe } from '@shared/pipes/time-ago.pipe';
         <div class="mfe-search-mb-6">
           <h3 class="mfe-search-text-xl mfe-search-font-semibold mfe-search-text-gray-900 mfe-search-mb-4">About the job</h3>
           <div class="mfe-search-prose mfe-search-text-gray-700 mfe-search-leading-relaxed">
-            <p>{{ jobView.description }}</p>
+            <p class="prose" [innerHTML]="jobView.description | markdown"></p>
           </div>
         </div>
         <!-- Company Info -->
