@@ -13,6 +13,10 @@ export class SearchJobService {
         return this.http.get<Job[]>(`${this.url}/jobs/search?in=${this.convertInputToQuery(input)}`)
     }
 
+    loadJobByIdWithSimilarJobs(id: number){
+        return this.http.get<Job[]>(`${this.url}/jobs/search-in?id=${id}`)
+    }
+
     private convertInputToQuery(input: string) {
         return input.trim().split(' ').map(m=> m.trim()).join("-") ?? ''
     }

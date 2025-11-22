@@ -1,8 +1,10 @@
-import { Component, OnInit, computed, inject, input, signal } from '@angular/core';
+import { Component, OnInit, computed, effect, inject, input, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Job } from '../../../data-access/job';
 import { JobListComponent } from '../ui/job-list.component';
-import { JobDetailsComponent } from '../ui/job-details.component';
+import { JobDetailsComponent } from './job-details.component';
 import { NgStyle } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'mfe-search-job-results-section',
@@ -62,9 +64,17 @@ import { NgStyle } from '@angular/common';
 })
 export class SearchJobResultsComponent implements OnInit {
 
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private queryParams = toSignal(this.route.queryParamMap);
+
   jobs = input<Job[] | undefined | null>(null);
 
-  selectedJobId = signal<number | null>(null);
+  selectedJobId = computed(() => {
+    const params = this.queryParams();
+    const idParam = params?.get('currentId');
+    return idParam ? Number(idParam) : null;
+  });
 
   isDesktop = signal<boolean>(window.innerWidth >= 640);
   private mediaQuery!: MediaQueryList;
@@ -75,7 +85,18 @@ export class SearchJobResultsComponent implements OnInit {
     if (!id) return null;
     return this.jobs()?.find(j => j.id === id) || null;
   });
-
+  
+  constructor() {
+    effect(() => {
+      const id = this.selectedJobId();
+      const mobile = !this.isDesktop();
+  
+      if (mobile && id) {
+        this.sheetHeight.set(90);
+      }
+    });
+  }
+  
   ngOnInit() {
     this.mediaQuery = window.matchMedia('(min-width: 640px)');
     this.isDesktop.set(this.mediaQuery.matches);
@@ -83,10 +104,14 @@ export class SearchJobResultsComponent implements OnInit {
     this.mediaQuery.addEventListener('change', (e) => {
       this.isDesktop.set(e.matches);
     });
+
   }
 
   selectJob(id: number) {
-    this.selectedJobId.set(id);
+    this.router.navigate([], {
+      queryParams: { currentId: id },
+      queryParamsHandling: 'merge'
+    });
   }
 
   openSheet(id: number) {
