@@ -52,12 +52,6 @@ import { NgStyle } from '@angular/common';
         (touchmove)="moveTouch($event)"
         (touchend)="endTouch()"
       >
-        <!-- <job-details class="mfe-search-pb-[50px]"
-          [job]="selectedJob()"
-          [isSaved]="isJobSaved(selectedJobId() || 0)()"
-          (easyApply)="onEasyApply($event)"
-          (saveJob)="onSaveJob($event)"
-        ></job-details> -->
         <job-details class="mfe-search-pb-[50px]"
           [job]="selectedJob()"
         ></job-details>
@@ -68,7 +62,7 @@ import { NgStyle } from '@angular/common';
 })
 export class SearchJobResultsComponent implements OnInit {
 
-  jobs = input<Job[] | undefined>(undefined);
+  jobs = input<Job[] | undefined | null>(null);
 
   selectedJobId = signal<number | null>(null);
 

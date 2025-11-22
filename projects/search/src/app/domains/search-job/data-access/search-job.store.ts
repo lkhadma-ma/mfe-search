@@ -6,11 +6,15 @@ import { Job } from './job';
 export class SearchJobStore {
     private searchJobService = inject(SearchJobService);
 
-    private jobsSignal = signal<Job[] | undefined>([]);
+    private jobsSignal = signal<Job[] | undefined | null>(null);
 
     jobs = this.jobsSignal.asReadonly();
     
     loadSearchedJobs(input: string){
+        if(input.trim() == ""){
+            this.jobsSignal.set(null);
+            return;
+        }
         this.jobsSignal.set(undefined);
         this.searchJobService
             .loadSearchedJobs(input)

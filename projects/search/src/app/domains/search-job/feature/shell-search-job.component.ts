@@ -22,9 +22,9 @@ export class ShellSearchJobComponent implements OnInit {
     listener = (event: Event) => {
         const { detail } = event as CustomEvent;
         const safe = detail.replace(/<[^>]*>/g, '').trim();
-
+        
         if (this.debounceTimer) clearTimeout(this.debounceTimer);
-            this.debounceTimer = setTimeout(() => {
+        this.debounceTimer = setTimeout(() => {
                 this.searchJobStore.loadSearchedJobs(safe);
         }, 300);
     };
