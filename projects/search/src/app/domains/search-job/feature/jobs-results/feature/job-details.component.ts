@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { TimeAgoPipe } from '@shared/pipes/time-ago.pipe';
 import { MarkdownPipe } from '@shared/pipes/markdown.pipe';
 import { JobResultsStore } from '../data-access/job-results.store';
+import { AlertService } from '@shared/commun/alert.service';
 
 
 @Component({
@@ -51,7 +52,7 @@ import { JobResultsStore } from '../data-access/job-results.store';
             </button>
           }
 
-          <button class="mfe-search-px-6 mfe-search-py-2 mfe-search-bg-white mfe-search-text-gray-700 mfe-search-rounded-lg mfe-search-font-medium mfe-search-border mfe-search-border-gray-300 hover:mfe-search-bg-gray-50 mfe-search-transition-colors">
+          <button (click)="copyLink()" class="mfe-search-px-6 mfe-search-py-2 mfe-search-bg-white mfe-search-text-gray-700 mfe-search-rounded-lg mfe-search-font-medium mfe-search-border mfe-search-border-gray-300 hover:mfe-search-bg-gray-50 mfe-search-transition-colors">
             Share
           </button>
         </div>
@@ -137,8 +138,9 @@ import { JobResultsStore } from '../data-access/job-results.store';
 })
 export class JobDetailsComponent {
 
-  job = input<Job | null>();
   jobResultsStore = inject(JobResultsStore);
+  alert = inject(AlertService)
+  job = input<Job | null>();
 
   constructor() {
     effect(() => {
@@ -160,5 +162,19 @@ export class JobDetailsComponent {
       if (!job?.id) return;
       this.jobResultsStore.applyJob(job.id);
   };
+
+  copyLink() {
+    const url = window.location.href;
+  
+    navigator.clipboard.writeText(url)
+      .then(() => {
+        this.alert.show("Link copied to clipboard!", "info");
+      })
+      .catch(() => {
+        this.alert.show("Failed to copy link. Please try again.", "error");
+      });
+  }
+  
+  
 
 }
