@@ -59,7 +59,7 @@ import { JobResultsStore } from '../data-access/job-results.store';
       <!-- Content -->
       <div class="mfe-search-flex-1 mfe-search-overflow-y-auto mfe-search-p-6">
         <!-- Job Status -->
-        <div class="max-sm:mfe-search-text-[12px] mfe-search-bg-green-50 mfe-search-border mfe-search-border-green-200 mfe-search-rounded-lg max-sm:mfe-search-px-2 max-sm:mfe-search-py-3 mfe-search-p-4 mfe-search-mb-6">
+        <div class="max-sm:mfe-search-text-[11px] mfe-search-bg-green-50 mfe-search-border mfe-search-border-green-200 mfe-search-rounded-lg max-sm:mfe-search-px-2 max-sm:mfe-search-py-3 mfe-search-p-4 mfe-search-mb-6">
           <div class="mfe-search-flex mfe-search-items-center max-sm:mfe-search-gap-1 mfe-search-gap-2">
             <span class="mfe-search-text-green-600 mfe-search-min-w-max">Created {{ jobView.createdAt | timeAgo }}</span>
             <span class="mfe-search-text-green-500">•</span>
