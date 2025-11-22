@@ -84,7 +84,7 @@ import { JobResultsStore } from '../data-access/job-results.store';
         <div class="mfe-search-mb-6">
           <h3 class="mfe-search-text-xl mfe-search-font-semibold mfe-search-text-gray-900 mfe-search-mb-4">About the job</h3>
           <div class="mfe-search-prose mfe-search-text-gray-700 mfe-search-leading-relaxed">
-            <p class="prose" [innerHTML]="jobView.description | markdown"></p>
+            <p class="prose mfe-search-text-base" [innerHTML]="jobView.description | markdown"></p>
           </div>
         </div>
         <!-- Company Info -->
@@ -98,10 +98,10 @@ import { JobResultsStore } from '../data-access/job-results.store';
               <div>
                 <a [routerLink]="['/lk',jobView.company.username]" class="mfe-search-text-lg mfe-search-font-semibold mfe-search-text-gray-900 mfe-search-cursor-pointer">{{ jobView.company.name }}</a>
                 @if (jobView.company.about.companySize) {
-                  <p class="mfe-search-text-gray-600 mfe-search-mt-1">Company size: {{ jobView.company.about.companySize }}</p>
+                  <p class="mfe-search-text-base mfe-search-text-gray-600 mfe-search-mt-1">Company size: {{ jobView.company.about.companySize }}</p>
                 }
                 @if (jobView.company.about.overview) {
-                  <p class="mfe-search-text-gray-700 mfe-search-mt-2">{{ jobView.company.about.overview }}</p>
+                  <p class="mfe-search-text-base mfe-search-text-gray-700 mfe-search-mt-2">{{ jobView.company.about.overview }}</p>
                 }
               </div>
             </div>
