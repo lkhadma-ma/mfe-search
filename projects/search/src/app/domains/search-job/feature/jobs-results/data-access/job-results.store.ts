@@ -1,10 +1,12 @@
 import { Injectable, signal, inject } from '@angular/core';
 import { JobResultsService } from './job-results.service';
 import { catchError, tap, map, of } from 'rxjs';
+import { AlertService } from '@shared/commun/alert.service';
 
 @Injectable({ providedIn: 'root' })
 export class JobResultsStore {
     private jobResultsService = inject(JobResultsService);
+    private alert = inject(AlertService);
 
     // Track applied job IDs
     private appliedJobs = signal<Set<number>>(new Set());
@@ -19,12 +21,15 @@ export class JobResultsStore {
         this.jobResultsService.applyJob(id)
             .pipe(
                 map(() => true),
-                catchError(() => of(false)),
+                catchError(() => {
+                    this.alert.show("!Opps We couldn't apply to this job",'error')
+                    return of(false);
+                }),
                 tap(success => {
                     if (success) {
                         const newSet = new Set(this.appliedJobs());
                         newSet.add(id);
-                        this.appliedJobs.set(newSet); // trigger reactive update
+                        this.appliedJobs.set(newSet);
                     }
                 })
             )

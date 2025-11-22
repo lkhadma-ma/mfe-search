@@ -10,11 +10,11 @@ export class JobResultsService {
     private http = inject(AuthHttpService);
     
     applyJob(id: number){
-        return this.http.get(`${this.url}/jobs/apply?id=${id}`)
+        return this.http.get(`${this.url}/applications/apply?id=${id}`)
     }
 
     isAppledJob(id: number){
-        return this.http.get(`${this.url}/jobs/apply-check?id=${id}`)
+        return this.http.get(`${this.url}/applications/apply/check?id=${id}`)
     }
 
 }

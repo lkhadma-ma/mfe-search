@@ -1,4 +1,4 @@
-import { Component, computed, inject, input, output } from '@angular/core';
+import { Component, computed, effect, inject, input, output } from '@angular/core';
 import { Job } from '../../../data-access/job';
 import { RouterLink } from '@angular/router';
 import { TimeAgoPipe } from '@shared/pipes/time-ago.pipe';
@@ -37,11 +37,20 @@ import { JobResultsStore } from '../data-access/job-results.store';
         </div>
         <!-- Action Buttons -->
         <div class="mfe-search-flex mfe-search-gap-3 mfe-search-flex-wrap">
-          <button
-            (click)="onEasyApply()"
-            [class]="isApplied() ? 'mfe-search-px-6 mfe-search-py-2 mfe-search-bg-green-100 mfe-search-text-green-800 mfe-search-rounded-lg mfe-search-font-medium mfe-search-border mfe-search-border-green-300 hover:mfe-search-bg-green-200 mfe-search-transition-colors' : 'mfe-search-px-6 mfe-search-py-2 mfe-search-bg-green-500 mfe-search-text-white mfe-search-rounded-lg mfe-search-font-medium hover:mfe-search-bg-green-600 mfe-search-transition-colors'">
-            {{ isApplied() ? 'Applied ✓' : 'Easy Apply' }}
-          </button>
+          @if(isApplied()){
+            <button
+              disabled
+              class="mfe-search-px-6 mfe-search-py-2 mfe-search-bg-green-100 mfe-search-text-green-800 mfe-search-rounded-lg mfe-search-font-medium mfe-search-border mfe-search-border-green-300 hover:mfe-search-bg-green-200 mfe-search-transition-colors">
+              Applied ✓
+            </button>
+          }@else {
+            <button
+              (click)="onEasyApply()"
+              class="mfe-search-px-6 mfe-search-py-2 mfe-search-bg-green-500 mfe-search-text-white mfe-search-rounded-lg mfe-search-font-medium hover:mfe-search-bg-green-600 mfe-search-transition-colors">
+              Easy Apply
+            </button>
+          }
+
           <button class="mfe-search-px-6 mfe-search-py-2 mfe-search-bg-white mfe-search-text-gray-700 mfe-search-rounded-lg mfe-search-font-medium mfe-search-border mfe-search-border-gray-300 hover:mfe-search-bg-gray-50 mfe-search-transition-colors">
             Share
           </button>
@@ -51,7 +60,7 @@ import { JobResultsStore } from '../data-access/job-results.store';
       <div class="mfe-search-flex-1 mfe-search-overflow-y-auto mfe-search-p-6">
         <!-- Job Status -->
         <div class="max-sm:mfe-search-text-[12px] mfe-search-bg-green-50 mfe-search-border mfe-search-border-green-200 mfe-search-rounded-lg max-sm:mfe-search-px-2 max-sm:mfe-search-py-3 mfe-search-p-4 mfe-search-mb-6">
-          <div class="mfe-search-flex mfe-search-items-center mfe-search-gap-2">
+          <div class="mfe-search-flex mfe-search-items-center max-sm:mfe-search-gap-1 mfe-search-gap-2">
             <span class="mfe-search-text-green-600 mfe-search-min-w-max">Created {{ jobView.createdAt | timeAgo }}</span>
             <span class="mfe-search-text-green-500">•</span>
             <span class="mfe-search-text-green-600 mfe-search-min-w-max">Updated {{ jobView.updatedAt | timeAgo }}</span>
@@ -131,6 +140,15 @@ export class JobDetailsComponent {
   job = input<Job | null>();
   jobResultsStore = inject(JobResultsStore);
 
+  constructor() {
+    effect(() => {
+      const job = this.job();
+      if (job?.id) {
+        this.jobResultsStore.checkAppliedJob(job.id);
+      }
+    });
+  }
+  
   isApplied = computed(() => {
       const job = this.job();
       if (!job?.id) return false;
