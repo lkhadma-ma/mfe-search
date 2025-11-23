@@ -1,0 +1,1 @@
+import{a as e}from"./chunk-2VMXMS7J.js";var n=[e({path:"",loadComponent:()=>import("./shell-search-job.component-YVWHNCYZ.js").then(o=>o.ShellSearchJobComponent)},typeof ngServerMode<"u"&&ngServerMode?{\u0275entryName:"src/app/domains/search-job/feature/shell-search-job.component.ts"}:{})];export{n as SEARCH_JOB_ROUTES};

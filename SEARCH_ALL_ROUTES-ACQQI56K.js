@@ -1,0 +1,1 @@
+import{a as e}from"./chunk-2VMXMS7J.js";var o=[e({path:"",loadComponent:()=>import("./shell-search-all.component-ONMG7WRL.js").then(n=>n.SearchAllComponent)},typeof ngServerMode<"u"&&ngServerMode?{\u0275entryName:"src/app/domains/search-all/feature/shell-search-all.component.ts"}:{})];export{o as SEARCH_ALL_ROUTES};
