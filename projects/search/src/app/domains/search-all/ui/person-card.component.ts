@@ -8,7 +8,7 @@ import { RouterLink } from "@angular/router";
     imports: [RouterLink],
     template: `
         <div class="hover:mfe-search-bg-gray-50 mfe-search-cursor-pointer mfe-search-flex mfe-search-items-center mfe-search-justify-between mfe-search-py-4 mfe-search-px-2 mfe-search-border-b mfe-search-border-gray-100 last:mfe-search-border-b-0" [routerLink]="['/lk',people.username]">
-          <div class="mfe-search-flex mfe-search-items-center mfe-search-space-x-3">
+          <div class="mfe-search-flex mfe-search-space-x-3">
             <div class="mfe-search-w-16 mfe-search-h-16 mfe-search-rounded-full mfe-search-flex mfe-search-items-center mfe-search-justify-center mfe-search-overflow-hidden">
               <img class="mfe-search-text-white mfe-search-font-semibold mfe-search-text-sm" [src]="people.avatar" alt="">
             </div>
