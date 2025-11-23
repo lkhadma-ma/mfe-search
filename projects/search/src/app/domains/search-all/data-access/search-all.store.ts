@@ -13,12 +13,10 @@ export class SearchAllStore {
     private http = inject(AuthHttpService);
 
     private peoplesSignal = signal<People[] | undefined | null>(null);
-    private companiesSignal = signal<Comapny[]>([])
-    private loadingSignal = signal<boolean>(false);
+    private companiesSignal = signal<Comapny[] | undefined | null>(null)
 
     peoples = this.peoplesSignal.asReadonly();
     companies = this.companiesSignal.asReadonly();
-    loading = this.loadingSignal.asReadonly();
 
     loadPeoplesByUserInput({ input, filters }: { input : string, filters: string[]}){
 
@@ -29,36 +27,37 @@ export class SearchAllStore {
 
         this.peoplesSignal.set(undefined);
 
-        this.http.get<People[]>(`${this.baseUrlUser}/users/search?in=${input}&fill=${filters.join(',')}`)
-            .pipe(
-                finalize(()=> this.loadingSignal.set(false))
-            )
-            .subscribe({
-                next: (peoples) => {
-                    this.peoplesSignal.set(peoples);
-                },
-                error: () => {
-                    this.peoplesSignal.set([]);
-                }
-            })
+        this.http
+            .get<People[]>(`${this.baseUrlUser}/users/search?in=${input}&fill=${filters.join(',')}`)
+                .subscribe({
+                    next: (peoples) => {
+                        this.peoplesSignal.set(peoples);
+                    },
+                    error: () => {
+                        this.peoplesSignal.set([]);
+                    }
+                })
     }
 
     loadCompaniesByUserInput({ input, filters }: { input : string, filters: string[]}){
 
-        this.loadingSignal.set(true);
+        if(!input.trim()){
+            this.companiesSignal.set(null);
+            return
+        }
 
-        this.http.get<Comapny[]>(`${this.baseUrlComapny}/companies/search?in=${input}&fill=${filters.join(',')}`)
-            .pipe(
-                finalize(()=> this.loadingSignal.set(false))
-            )
-            .subscribe({
-                next: (companies) => {
-                    this.companiesSignal.set(companies);
-                },
-                error: () => {
-                    this.companiesSignal.set([]);
-                }
-            })
+        this.companiesSignal.set(undefined);
+
+        this.http
+            .get<Comapny[]>(`${this.baseUrlComapny}/companies/search?in=${input}&fill=${filters.join(',')}`)
+                .subscribe({
+                    next: (companies) => {
+                        this.companiesSignal.set(companies);
+                    },
+                    error: () => {
+                        this.companiesSignal.set([]);
+                    }
+                })
     }
     
 }

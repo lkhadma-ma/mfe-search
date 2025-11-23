@@ -16,15 +16,14 @@ import { Comapny } from '../data-access/company';
             <mfe-search-people-results [peoples]="peoples()"  />
         }
         @if (activeTab() === 'company') {
-            <mfe-search-comapny-results [loading]="loading()" [companies]="companies()" />
+            <mfe-search-comapny-results  [companies]="companies()" />
         }
             
     `
 })
 export class SearchResultsComponent {
     activeTab = input<string>('');
-    loading = input<boolean>(false);
 
     peoples = input<People[] | undefined | null>(null);
-    companies = input<Comapny[]>([]);
+    companies = input<Comapny[] | undefined | null>(null);
 }

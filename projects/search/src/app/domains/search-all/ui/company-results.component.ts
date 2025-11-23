@@ -14,13 +14,16 @@ import { LoadingComponent } from "./loading.component";
     template: `
             <h2 class="mfe-search-text-xl mfe-search-font-semibold mfe-search-text-gray-900 mfe-search-mb-4">Company</h2>
 
+            @if (companies() === null) {
+                <mfe-search-loading />
+            }
             <!-- Loading -->
-            @if (loading()) {
+            @else if (companies() === undefined) {
                 <mfe-search-loading />
             }
 
             <!-- Results -->
-            @else if (hasResults()) {
+            @else if (companies()!.length > 0) {
                 @for (company of companies(); track $index) {
                 <mfe-search-company-card 
                     [company]="company" />
@@ -28,16 +31,12 @@ import { LoadingComponent } from "./loading.component";
             }
 
             <!-- Empty -->
-            @else if (isEmpty()) {
+            @else {
                 <mfe-search-not-found />
             }
 
     `
 })
 export class CompanyResultsComponent {
-    companies = input<Comapny[]>([])
-    loading = input<boolean>(false);
-
-    hasResults = computed(() => !this.loading() && this.companies().length > 0);
-    isEmpty = computed(() => !this.loading() && this.companies().length === 0);
+    companies = input<Comapny[] | undefined | null>([])
 }
