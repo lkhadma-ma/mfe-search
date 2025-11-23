@@ -76,7 +76,6 @@ export class SearchAllComponent implements OnInit {
         }
     }
 }
-
 /**
  *  {
         title: { value: 'people', label: 'Filtrar por' },
