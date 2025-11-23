@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-
 import { Comapny } from '../data-access/company';
 import { RouterLink } from "@angular/router";
 
